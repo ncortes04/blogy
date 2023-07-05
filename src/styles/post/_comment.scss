@@ -2,7 +2,26 @@
     Axil Comment  
 ----------------------*/
 
-
+.login-parent-form {
+    display: flex;
+    align-items: center;
+    height: 70rem;
+    justify-content: center;
+    .login-form {
+        max-width: 50%;
+    }
+    .password-input-wrapper {
+        position: relative;
+        .toggle-password-button {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            border: none;
+            transform: translate(0, -50%);
+            width: 20px;
+        }
+    }
+}
 .axil-total-comment-post {
     display: flex;
     justify-content: space-between;

@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import MobileMenu from "./MobileMenu";
 import Nav from "./Nav";
 import SocialData from "../../../data/social/SocialData.json";
-
+import authservice from "../../utils/authservice";
+import { getLoggedInStatus } from "../../utils";
 const HeaderThree = ({ darkLogo, lightLogo, postData }) => {
+  const loggedIn = getLoggedInStatus();
+
   const dateFormate = () => {
     var day = new Date().getDate();
     var month = new Date().toLocaleString("en-US", { month: "long" });
@@ -27,9 +30,9 @@ const HeaderThree = ({ darkLogo, lightLogo, postData }) => {
 
   const [togglaClass, setTogglaClass] = useState(false);
 
-   const toggleHandler = () => {
-        setTogglaClass(active => !active);
-   }
+  const toggleHandler = () => {
+    setTogglaClass((active) => !active);
+  };
 
   return (
     <>
@@ -96,33 +99,38 @@ const HeaderThree = ({ darkLogo, lightLogo, postData }) => {
         <div className="header-middle">
           <div className="container">
             <div className="row align-items-center">
-                <div className="col-lg-3 col-md-4 col-sm-6">
-                    <div className="logo">
-                        <Link href="/">
-                            <a>
-                                <Image
-                                className="dark-logo"
-                                width={141}
-                                height={37}
-                                src={(colorMode === "Dark" ? lightLogo || "/images/logo/logo-white2.webp" : darkLogo || "/images/logo/logo-black.webp") || "/images/logo/logo-black.webp" }
-                                alt="Blogar logo"
-                                />
-                            </a>
-                        </Link>
-                    </div>
-                </div>     
-                <div className="col-lg-9 col-md-8 col-sm-6">
-                    <div className="banner-add text-end">
-                    <a href="#">
-                        <Image
-                        src="/images/others/add-01.webp"
-                        width={728}
-                        height={92}
-                        alt="Add images"
-                        />
+              <div className="col-lg-3 col-md-4 col-sm-6">
+                <div className="logo">
+                  <Link href="/">
+                    <a>
+                      <Image
+                        className="dark-logo"
+                        width={141}
+                        height={37}
+                        src={
+                          (colorMode === "Dark"
+                            ? lightLogo || "/images/logo/logo-white2.webp"
+                            : darkLogo || "/images/logo/logo-black.webp") ||
+                          "/images/logo/logo-black.webp"
+                        }
+                        alt="Blogar logo"
+                      />
                     </a>
-                    </div>
+                  </Link>
                 </div>
+              </div>
+              <div className="col-lg-9 col-md-8 col-sm-6">
+                <div className="banner-add text-end">
+                  <a href="#">
+                    <Image
+                      src="/images/others/add-01.webp"
+                      width={728}
+                      height={92}
+                      alt="Add images"
+                    />
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -133,7 +141,7 @@ const HeaderThree = ({ darkLogo, lightLogo, postData }) => {
               <div className="col-xl-7 col-12">
                 <div className="mainmenu-wrapper d-none d-xl-block">
                   <nav className="mainmenu-nav">
-                  <Nav posts={postData}/>
+                    <Nav posts={postData} />
                   </nav>
                 </div>
               </div>
@@ -152,10 +160,17 @@ const HeaderThree = ({ darkLogo, lightLogo, postData }) => {
                     </div>
                   </form>
                   <div className="mobile-search-wrapper d-sm-none d-block">
-                    <button className="search-button-toggle" onClick={toggleHandler}>
+                    <button
+                      className="search-button-toggle"
+                      onClick={toggleHandler}
+                    >
                       <i className="fal fa-search" />
                     </button>
-                    <form className={`header-search-form ${togglaClass ? "open": ""}`}>
+                    <form
+                      className={`header-search-form ${
+                        togglaClass ? "open" : ""
+                      }`}
+                    >
                       <div className="axil-search form-group">
                         <button type="submit" className="search-button">
                           <i className="fal fa-search" />
@@ -184,16 +199,22 @@ const HeaderThree = ({ darkLogo, lightLogo, postData }) => {
                       </Link>
                     </li>
                     <li>
-                      <Link href="#">
-                        <a>
-                          <Image
-                            width={40}
-                            height={40}
-                            src="/images/others/author.webp"
-                            alt="Author Images"
-                          />
-                        </a>
-                      </Link>
+                      {loggedIn ? (
+                        <Link href="#">
+                          <a >
+                            <Image
+                              width={40}
+                              height={40}
+                              src="/images/others/author.webp"
+                              alt="Author Images"
+                            />
+                          </a>
+                        </Link>
+                      ) : (
+                        <Link href="/login">
+                            <a className="login" onClick={authservice.login}>Login</a>
+                        </Link>
+                      )}
                     </li>
                   </ul>
                   {/* Start Hamburger Menu  */}

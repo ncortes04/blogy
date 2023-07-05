@@ -17,7 +17,6 @@ const PostComment = () => {
             </Link>
         </div>
       </div>
-      {/* Start Comment Respond  */}
       <div className="comment-respond">
         <h4 className="title">Post a comment</h4>
         <form action="#">

@@ -206,6 +206,7 @@ button {
     align-items: center;
     li {
         margin-left: 20px;
+        display: flex;
         margin-top: 0;
         margin-bottom: 0;
         @media only screen and (min-width: 1600px) and (max-width: 1800px) {
@@ -241,6 +242,18 @@ button {
                     background: var(--color-primary);
                     color: #fff !important;
                 }
+            }
+        }
+        .login {
+            background: var(--color-lightest); 
+            min-width: 80px!important;
+            text-align: center;
+            border-radius: 50px;
+            padding: 6px;
+            color: var(--color-gray);
+            &:hover {
+                background: var(--color-primary);
+                color: #fff !important;
             }
         }
         a {

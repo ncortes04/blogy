@@ -11,7 +11,7 @@ import HeadTitle from "../../common/elements/head/HeadTitle";
 
 
 const AuthorArchive = ({ authorData, allPosts }) => {
-  
+    
     return (
         <>
         <HeadTitle pageTitle="Author Archive" />

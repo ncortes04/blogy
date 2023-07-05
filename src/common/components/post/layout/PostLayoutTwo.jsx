@@ -13,13 +13,13 @@ const PostLayoutTwo = ({ dataPost, postStart, show, bgColor }) => {
 			<div className="post-thumbnail">
 				<Link href={`/post/${data.slug}`}>
 				<a>
-					<Image
+					{/* <Image
 					src={data.featureImg}
 					alt={data.title}
 					height={250}
 					width={295}
 					priority={true}
-					/>
+					/> */}
 				</a>
 				</Link>
 				{data.playBtn === true ? 

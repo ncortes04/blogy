@@ -1,22 +1,29 @@
-import jwt from 'jsonwebtoken';
+import { PrismaClient } from "@prisma/client";
+import authMiddleware from "./middleware";
 
-export default async function handler(req, res) {
-  const { authorization } = req.headers;
+const prisma = new PrismaClient();
 
+const handler = async (req, res) => {
+  const { user } = req;
   try {
-    if (!authorization || !authorization.startsWith('Bearer ')) {
-      return res.status(401).json({ error: 'Unauthorized' });
+    const foundUser = await prisma.user.findUnique({
+      where: { id: user.id },
+      include: {
+        post: true,
+      },
+    });
+
+    if (!foundUser) {
+      return res.status(400).json({ message: "Cannot find a user with this id!" });
     }
 
-    const token = authorization.split(' ')[1];
-    const decoded = jwt.verify(token, "secret");
-
-    // Assuming the decoded payload contains the user information
-    const user = decoded.user;
-
-    return res.status(200).json(user);
+    res.json({ foundUser });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'An error occurred' });
+    res.status(500).json({ message: "Internal server error" });
+  } finally {
+    await prisma.$disconnect();
   }
-}
+};
+
+export default authMiddleware(handler);

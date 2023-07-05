@@ -3,8 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link'
 import MobileMenu from './MobileMenu';
 import Nav from './Nav';
-
-
+import { AuthService } from '../../utils';
 const HeaderOne = ({pClass, darkLogo, lightLogo, postData}) => {
     if (typeof window !== "undefined") {
         var colorMode = window.localStorage.getItem('color-mode');
@@ -107,7 +106,6 @@ const HeaderOne = ({pClass, darkLogo, lightLogo, postData}) => {
                                         </Link>
                                     </li>
                                 </ul>
-                                {/* Start Hamburger Menu  */}
                                 <div className="hamburger-menu d-block d-xl-none">
                                     <div className="hamburger-inner">
                                         <div className="icon" onClick={MobileShowHandler}>
@@ -115,7 +113,6 @@ const HeaderOne = ({pClass, darkLogo, lightLogo, postData}) => {
                                         </div>
                                     </div>
                                 </div>
-                                {/* End Hamburger Menu  */}
                             </div>
                         </div>
                     </div>

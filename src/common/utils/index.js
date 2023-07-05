@@ -36,6 +36,15 @@ const SortingByDate = function(posts) {
     
 })
 }
+const getLoggedInStatus = () => {
+  if (typeof window !== 'undefined') {
+    const loggedInStatus = window.localStorage.getItem('loggedIn');
+    return loggedInStatus === 'true';
+  }
+  return false;
+};
+
+
 
 const HoverActiveClass = function(hoverRef) {
 	const [refLists, setrefLists] = useState([]);
@@ -57,4 +66,5 @@ const HoverActiveClass = function(hoverRef) {
 	});
 }
 
-export {slugify, removeDuplicates, SortingByDate, HoverActiveClass};
+
+export {getLoggedInStatus, slugify, removeDuplicates, SortingByDate, HoverActiveClass};

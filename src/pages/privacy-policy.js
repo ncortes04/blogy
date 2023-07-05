@@ -1,21 +1,40 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 import privacyData from "../data/privacy/privacyData.json";
 import HeadTitle from "../common/elements/head/HeadTitle";
 import HeaderOne from "../common/elements/header/HeaderOne";
 import { getAllPosts } from "../../lib/api";
+import authservice from "../common/utils/authservice";
+
 // Use the prisma object to interact with your database
 const PrivacyPolicy = ({ me, users, allPosts }) => {
-
+  const postData = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/me",
+        {},
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${authservice.getToken()}`,
+          },
+        }
+      );
+      await response.json()
+      console.log(response.data);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
   
-  
-  console.log(me)
   
   return (
     <>
     <HeadTitle pageTitle="Privacy Policy"/>
-    <HeaderOne postData={allPosts} pClass="header-light header-sticky header-with-shadow"/>
+    <HeaderOne postData={allPosts} Class="header-light header-sticky header-with-shadow"/>
       <div className="container">
         <div className="row">
+          <button onClick={() => postData()}>Post</button>
           <div className="col-lg-10 offset-lg-1">
             <div className="content">
               <div className="inner">
@@ -82,7 +101,6 @@ export async function getServerSideProps() {
     const response = await fetch('http://localhost:3000/api/users');
     const users = await response.json();
     const allPosts = getAllPosts(["title", "featureImg", "slug", "cate"]);
-
     return {
       props: {
         users,
