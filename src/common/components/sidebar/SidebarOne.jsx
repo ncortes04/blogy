@@ -4,10 +4,11 @@ import WidgetPostList from "./WidgetPostList";
 import WidgetSearch from "./WidgetSearch";
 import WidgetSocialShare from "./WidgetSocialShare";
 
-const SidebarOne = ({dataPost}) => {
+const SidebarOne = ({dataPost, isMyPage}) => {
   return (
     <div className="sidebar-inner">
-      <WidgetCategory catData={dataPost}/>
+      {isMyPage ? null : null}
+      {/* <WidgetCategory catData={dataPost}/> */}
       <WidgetSearch />
       <WidgetPostList postData={dataPost}/>
       <WidgetSocialShare />

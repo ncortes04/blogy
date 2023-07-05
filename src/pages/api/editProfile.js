@@ -6,22 +6,22 @@ const prisma = new PrismaClient();
 const handler = async (req, res) => {
   const { user } = req;
   try {
-    const { bio, img, designation } = req.body;
-
-    // Check if the token matches the current user
-    if (user.id !== req.params.id) {
-      return res.status(403).json({ message: "Unauthorized access" });
-    }
+    const { bio, img, designation, name } = req.body;
 
     const foundUser = await prisma.user.findUnique({
       where: { id: user.id },
     });
-
     if (!foundUser) {
       return res.status(400).json({ message: "Cannot find a user with this id!" });
     }
 
     // Update user attributes if provided
+    if (name && foundUser.name !== name) {
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { name },
+      });
+    }
     if (bio && foundUser.bio !== bio) {
       await prisma.user.update({
         where: { id: user.id },

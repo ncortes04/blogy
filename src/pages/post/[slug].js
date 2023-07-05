@@ -5,26 +5,8 @@ import HeaderOne from '../../common/elements/header/HeaderOne';
 import FooterOne from '../../common/elements/footer/FooterOne';
 import PostFormatStandard from '../../common/components/post/format/PostFormatStandard';
 import InstagramOne from '../../common/components/instagram/InstagramOne';
-import PostFormatVideo from '../../common/components/post/format/PostFormatVideo';
-import PostFormatGallery from '../../common/components/post/format/PostFormatGallery';
-import PostFormatAudio from '../../common/components/post/format/PostFormatAudio';
-import PostFormatQuote from '../../common/components/post/format/PostFormatQuote';
 
 const PostDetails = ({ post, allPosts }) => {
-	
-	const PostFormatHandler = () => {
-		if (post.postFormat === 'video') {
-			return <PostFormatVideo postData={post} allData={allPosts}/>
-		} else if (post.postFormat === 'gallery') {
-			return <PostFormatGallery postData={post} allData={allPosts}/>
-		}  else if (post.postFormat === 'audio') {
-			return <PostFormatAudio postData={post} allData={allPosts}/>
-		} else if (post.postFormat === 'quote') {
-			return <PostFormatQuote postData={post} allData={allPosts}/>
-		} else {
-			return <PostFormatStandard postData={post} allData={allPosts}/>
-		}
-	}
 
 	
 	
@@ -32,7 +14,7 @@ const PostDetails = ({ post, allPosts }) => {
 		<>
 			<HeaderOne postData={allPosts} pClass="header-light header-sticky header-with-shadow"/>
 			<HeadTitle pageTitle={post.title} />
-			<PostFormatHandler />
+			<PostFormatStandard postData={post} allData={allPosts}/>
 			<InstagramOne parentClass="bg-color-extra03"/>
 			<FooterOne />
 		</>
@@ -62,6 +44,7 @@ export async function getStaticProps({ params }) {
 		'content',
 		'tags'
 	])
+	console.log(post.content)
 	const content = await markdownToHtml(post.content || '')
 
 	const allPosts = getAllPosts([

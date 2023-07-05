@@ -74,5 +74,3 @@ Apple today named eight app and game developers receiving an Apple Design Award,
 More than 250 developers have been recognized with Apple Design Awards over the past 20 years. The recognition has proven to be an accelerant for developers who are pioneering innovative designs within their individual apps and influencing entire categories. Previous winners such as Pixelmator, djay, Complete Anatomy, HomeCourt, “Florence,” and “Crossy Road” have set the standard in areas such as storytelling, interface design, and use of Apple tools and technologies.
 
 For more information on the apps and games, visit the [App Store](#).
-
-
