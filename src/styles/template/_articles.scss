@@ -1,0 +1,31 @@
+.axil-post-list-area {
+    .name-spacer {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        .message-btn {
+            all: unset;
+            position: relative;
+            &:hover {
+              cursor: pointer;
+            }
+            &.hover {
+              &:hover::before {
+                content: "Add a post";
+                position: absolute;
+                top: -40px;
+                left: 50%;
+                width: 120px;
+                font-weight: 600;
+                text-transform: uppercase;
+                transform: translateX(-50%);
+                display: block;
+                background: #c7c5c585;
+                color: black;
+                padding: 5px;
+                border-radius: 4px;
+              }
+          }
+        } 
+    }
+}

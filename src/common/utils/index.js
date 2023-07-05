@@ -38,8 +38,10 @@ const SortingByDate = function(posts) {
 }
 const getLoggedInStatus = () => {
   if (typeof window !== 'undefined') {
-    const loggedInStatus = window.localStorage.getItem('loggedIn');
-    return loggedInStatus === 'true';
+    const loggedInStatus = window.localStorage.getItem('id_token');
+    if (loggedInStatus) {
+      return true;
+    }
   }
   return false;
 };

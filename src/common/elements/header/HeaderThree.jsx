@@ -7,8 +7,6 @@ import SocialData from "../../../data/social/SocialData.json";
 import authservice from "../../utils/authservice";
 import { getLoggedInStatus } from "../../utils";
 const HeaderThree = ({ darkLogo, lightLogo, postData }) => {
-  const loggedIn = getLoggedInStatus();
-
   const dateFormate = () => {
     var day = new Date().getDate();
     var month = new Date().toLocaleString("en-US", { month: "long" });
@@ -18,6 +16,12 @@ const HeaderThree = ({ darkLogo, lightLogo, postData }) => {
 
     return todayDate;
   };
+  const [loggedIn, setLoggedIn] = useState();
+
+  useEffect(() => {
+    const loggedInStatus = getLoggedInStatus();
+    setLoggedIn(loggedInStatus);
+  }, []);
 
   if (typeof window !== "undefined") {
     var colorMode = window.localStorage.getItem("color-mode");
@@ -199,9 +203,9 @@ const HeaderThree = ({ darkLogo, lightLogo, postData }) => {
                       </Link>
                     </li>
                     <li>
-                      {loggedIn ? (
-                        <Link href="#">
-                          <a >
+                      {loggedIn === true ? (
+                        <Link href="/mypage">
+                          <a>
                             <Image
                               width={40}
                               height={40}
@@ -210,11 +214,13 @@ const HeaderThree = ({ darkLogo, lightLogo, postData }) => {
                             />
                           </a>
                         </Link>
-                      ) : (
-                        <Link href="/login">
-                            <a className="login" onClick={authservice.login}>Login</a>
-                        </Link>
-                      )}
+                      ) : loggedIn === false ? (
+                          (
+                          <Link href="/login">
+                            <a className="login">Login</a>
+                          </Link>
+                        )
+                      ) : null}
                     </li>
                   </ul>
                   {/* Start Hamburger Menu  */}

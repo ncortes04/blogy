@@ -4,7 +4,7 @@ import WidgetPostList from "./WidgetPostList";
 import WidgetSearch from "./WidgetSearch";
 import WidgetSocialShare from "./WidgetSocialShare";
 
-const SidebarOne = ({dataPost, isMyPage}) => {
+const SidebarOne = ({ col, dataPost, isMyPage}) => {
   return (
     <div className="sidebar-inner">
       {isMyPage ? null : null}

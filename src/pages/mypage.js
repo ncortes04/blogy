@@ -12,6 +12,7 @@ import SidebarOne from "../common/components/sidebar/SidebarOne";
 import authservice from "../common/utils/authservice";
 import MarkdownEditor from "../common/elements/posts/MarkdownEditor";
 import { FaPencilAlt, FaCheck, FaTimes } from "react-icons/fa";
+import { BiMessageSquareAdd } from 'react-icons/bi';
 
 const LoadingBar = () => {
   return (
@@ -225,19 +226,25 @@ const AuthorArchive = ({ token, allPosts }) => {
         </div>
       </div>
 
-      <div className="axil-post-list-area axil-section-gap bg-color-white">
+      <div className="axil-post-list-area axil-section-gap ">
         <div className="container">
           <div className="row">
-            <div className="col-lg-12">
-              <div className="page-title">
+            <div className="col-lg-8 col-xl-8">
+            <div className="page-title">
                 <div className="name-spacer">
                   <h2 className="title">My Articles</h2>
-                  <button>Add Post</button>
+                  {!addPost ? 
+                  <button className="message-btn hover" onClick={() => setAddPost(true)}>
+                    <BiMessageSquareAdd style={{ fontSize: '5rem' }}/>
+                  </button>
+                  : <button className="message-btn" onClick={() => setAddPost(false)}>
+                      <FaTimes style={{ fontSize: '5rem' }}/>
+                    </button>
+                  }
+                 
                 </div>
                 {addPost ? <MarkdownEditor /> : null}
               </div>
-            </div>
-            <div className="col-lg-8 col-xl-8">
               {myData.post.length > 0 ? (
                 <PostLayoutTwo dataPost={authorData} show="5" />
               ) : (
