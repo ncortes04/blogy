@@ -245,11 +245,11 @@ const AuthorArchive = ({ token, allPosts }) => {
                 </div>
                 {addPost ? <MarkdownEditor /> : null}
               </div>
-              {myData.post.length > 0 ? (
+              {/* {myData.post.length > 0 ? (
                 <PostLayoutTwo dataPost={authorData} show="5" />
               ) : (
                 <div>No posts</div>
-              )}
+              )} */}
             </div>
             <div className="col-lg-4 col-xl-4 mt_md--40 mt_sm--40">
               <SidebarOne dataPost={allPosts} />
