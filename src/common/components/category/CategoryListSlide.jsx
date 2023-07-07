@@ -4,9 +4,12 @@ import { SectionTitleTwo } from "../../elements/sectionTitle/SectionTitle";
 import {removeDuplicates, slugify} from '../../utils';
 import Slider from "react-slick";
 
-const CategoryListSlide = ({cateData}) => {
-
-  const uniqueCategory = removeDuplicates(cateData, "cate");
+const CategoryListSlide = () => {
+  const catData = [
+    {category:"Research"},    
+    {category:"Technology"},
+    {category:"Seo"}
+  ]
 
   function SlickNextArrow(props) {
     const { className, onClick } = props;
@@ -70,21 +73,21 @@ const slideSettings = {
         <div className="row">
           <div className="col-lg-12">
 			<Slider {...slideSettings} className="list-categories categories-activation axil-slick-arrow arrow-between-side">
-              {uniqueCategory.map((data, index) => (
+              {catData.map((data, index) => (
                 <div className="single-cat" key={index}>
                 <div className="inner">
-                <Link href={`/category/${slugify(data.cate)}`}>
+                <Link href={`/category?fil=${data.category}`}>
                   <a>
                     <div className="thumbnail">
                     <Image
-                        src={data.cate_img}
+                        src='/images/posts/thumbnail-01.webp'
                         alt={data.cate}
                         height={180}
                         width={180}
                     />
                     </div>
                     <div className="content">
-                      <h5 className="title">{data.cate}</h5>
+                      <h5 className="title">{data.category}</h5>
                     </div>
                   </a>
                   </Link>

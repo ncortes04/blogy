@@ -14,7 +14,6 @@ const authMiddleware = (handler) => async (req, res) => {
   if (req.headers.authorization) {
     token = token.split(' ').pop().trim();
   }
-
   try {
     const data = await jwt.verify(token, process.env.SECRET_KEY);
     req.user = data;

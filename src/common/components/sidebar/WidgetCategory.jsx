@@ -11,11 +11,11 @@ const WidgetCategory = ({ catData }) => {
       <ul>
         {uniqueCategory.slice(0, 4).map((data) => (
           <li className="cat-item" key={data.slug}>
-            <Link href={`/category/${slugify(data.cate)}`}>
+            <Link href={`/category/${data.category}`}>
               <a className="inner">
                 <div className="thumbnail">
                   <Image
-                    src={data.cate_img}
+                    src='/images/posts/thumbnail-01.webp'
                     alt={data.cate}
                     height={50}
                     width={50}

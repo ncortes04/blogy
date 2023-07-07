@@ -3,10 +3,8 @@ import ReactPaginate from 'react-paginate';
 import InstagramOne from "../common/components/instagram/InstagramOne";
 import FooterThree from "../common/elements/footer/FooterThree";
 import HeaderOne from "../common/elements/header/HeaderOne";
-import { getAllPosts } from '../../lib/api';
 import SidebarOne from "../common/components/sidebar/SidebarOne";
 import PostLayoutTwo from "../common/components/post/layout/PostLayoutTwo";
-import { SortingByDate } from "../common/utils";
 import HeadTitle from "../common/elements/head/HeadTitle";
 
 const PostListPage = ({ allPosts }) => {
@@ -60,28 +58,23 @@ const PostListPage = ({ allPosts }) => {
 export default PostListPage;
 
 
-export async function getStaticProps() {
-    const allPosts = getAllPosts([
-        'id',
-        'title',
-        'featureImg',
-        'featured',
-        'sticky',
-        'postFormat',
-        'playBtn',
-        'date',
-        'slug',
-        'cate',
-        'cate_img',
-        'author_img',
-        'author_name',
-        'post_views',
-        'read_time',
-        'author_social',
-    ])
-
-    SortingByDate(allPosts);
-    return {
-        props: { allPosts }
+export async function getServerSideProps(context) {
+    try {
+      const response = await fetch("http://localhost:3000/api/posts/getAllPosts");
+      const allPosts = await response.json();
+      return {
+        props: {
+          allPosts,
+        },
+      };
+    } catch (error) {
+      console.error(error);
+  
+      return {
+        props: {
+          post: {},
+        },
+      };
     }
-}
+  }
+  

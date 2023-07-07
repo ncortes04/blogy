@@ -1,15 +1,14 @@
+import React from "react";
 import Link from "next/link";
 import { slugify } from "../../../../utils";
 
-const PostTagShare = ({postTags}) => {
+const PostTagShare = ({ postCat, socialLinks }) => {
   return (
     <>
       <div className="tagcloud">
-        {postTags.tags.map((data, index) => (
-          <Link href={`/tag/${slugify(data)}`} key={index}>
-            <a>{data}</a>
-          </Link>
-        ))}
+        <Link href={`/category?fil=${postCat}}`} key={postCat}>
+            <a>{postCat}</a>
+        </Link>
       </div>
       <div className="social-share-block">
         <div className="post-like">
@@ -20,26 +19,15 @@ const PostTagShare = ({postTags}) => {
           </a>
         </div>
         <ul className="social-icon icon-rounded-transparent md-size">
-          <li>
-            <a href="https://facebook.com/">
-              <i className="fab fa-facebook-f" />
-            </a>
-          </li>
-          <li>
-            <a href="https://instagram.com">
-              <i className="fab fa-instagram" />
-            </a>
-          </li>
-          <li>
-            <a href="https://twitter.com">
-              <i className="fab fa-twitter" />
-            </a>
-          </li>
-          <li>
-            <a href="https://linkedin.com">
-              <i className="fab fa-linkedin-in" />
-            </a>
-          </li>
+          {socialLinks.map((social) => {
+            return (
+              <li key={social.url}>
+                <a href={social.url}>
+                  <i className={social.icon} />
+                </a>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </>

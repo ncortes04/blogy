@@ -44,7 +44,6 @@ export async function getStaticProps({ params }) {
 		'content',
 		'tags'
 	])
-	console.log(post.content)
 	const content = await markdownToHtml(post.content || '')
 
 	const allPosts = getAllPosts([

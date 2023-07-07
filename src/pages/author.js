@@ -116,7 +116,6 @@ export async function getServerSideProps(context) {
       const userData = await userResponse.json();
       // Fetch all posts
 
-      console.log(userData)
       const allPosts = getAllPosts(["title", "featureImg", "slug", "cate"]);
   
       return {

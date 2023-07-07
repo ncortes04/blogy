@@ -1,12 +1,9 @@
-/** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   basePath: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_BASEPATH : "",
-  // images: {
-  //   loader: 'akamai',
-  //   path: process.env.NEXT_PUBLIC_URL,
-  // },  
-}
+  images: {
+    domains: ["blogy-store.s3.us-west-2.amazonaws.com"],
+  },
+};
 
-module.exports = nextConfig
-
+module.exports = nextConfig;

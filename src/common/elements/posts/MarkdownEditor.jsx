@@ -11,6 +11,9 @@ const MarkdownEditor = () => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [previewContent, setPreviewContent] = useState("");
   const [lineIndex, setLineIndex] = useState(0);
+  const [category, setCategory] = useState("");
+  const [readTime, setReadTime] = useState("");
+  const [brief, setBrief] = useState("");
 
   const handleOptionToggle = (option) => {
     const lines = content.split("\n");
@@ -126,11 +129,16 @@ const MarkdownEditor = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ name: title, description: content }),
+        body: JSON.stringify({
+          name: title,
+          description: content,
+          category,
+          read_time: readTime,
+          brief,
+        }),
       });
 
       const data = await response.json();
-      console.log(data);
     } catch (error) {
       console.error(error);
     }
@@ -138,6 +146,41 @@ const MarkdownEditor = () => {
 
   return (
     <div className="markdown-container">
+      <label>Title:</label>
+      <input value={title} onChange={(e) => setTitle(e.target.value)} />
+      <div>
+        <label>Category:</label>
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        >
+          <option value="">Select Category</option>
+          <option value="Design">Design</option>
+          <option value="SEO">SEO</option>
+          <option value="Travel">Travel</option>
+          <option value="Research">Research</option>
+          <option value="Technology">Technology</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Read Time:</label>
+        <select value={readTime} onChange={(e) => setReadTime(e.target.value)}>
+          <option value="">Select Read Time</option>
+          <option value="1 min">1 min</option>
+          <option value="5 min">5 min</option>
+          <option value="10 min">10 min</option>
+          <option value="30 min">30 min</option>
+        </select>
+      </div>
+      <div>
+      <label>Brief:</label>
+        <input
+          type="text"
+          value={brief}
+          onChange={(e) => setBrief(e.target.value)}
+        />
+      </div>
       <div className="button-container">
         <button
           onClick={() => handleOptionToggle("#")}
@@ -176,8 +219,6 @@ const MarkdownEditor = () => {
           **
         </button>
       </div>
-      <label>Title:</label>
-      <input value={title} onChange={(e) => setTitle(e.target.value)} />
       <label>Body:</label>
       <textarea
         value={content}
@@ -193,7 +234,7 @@ const MarkdownEditor = () => {
         </div>
       )}
 
-      <button onClick={handleSubmit}>Submit</button>
+      <button className="submit-btn" onClick={handleSubmit}>Submit</button>
     </div>
   );
 };

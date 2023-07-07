@@ -25,6 +25,17 @@ function removeDuplicates(originalArray, prop) {
   }
    return newArray;
 }
+const formatTimestamp = (timestamp) => {
+  const date = new Date(timestamp);
+  const options = {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  };
+  return date.toLocaleString([], options);
+};
 
 const SortingByDate = function(posts) {
   return posts
@@ -45,7 +56,7 @@ const getLoggedInStatus = () => {
   }
   return false;
 };
-
+const isServer = () => typeof window === "undefined";
 
 
 const HoverActiveClass = function(hoverRef) {
@@ -69,4 +80,4 @@ const HoverActiveClass = function(hoverRef) {
 }
 
 
-export {getLoggedInStatus, slugify, removeDuplicates, SortingByDate, HoverActiveClass};
+export {formatTimestamp,isServer, getLoggedInStatus, slugify, removeDuplicates, SortingByDate, HoverActiveClass};

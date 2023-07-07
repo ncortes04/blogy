@@ -6,7 +6,6 @@ const prisma = new PrismaClient();
 const createPost = async (req, res) => {
   const { user } = req;
   const { body } = req;
-  console.log(body)
 
   try {
     const newPost = await prisma.post.create({

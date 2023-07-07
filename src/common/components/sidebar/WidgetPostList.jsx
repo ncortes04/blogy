@@ -2,6 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 
 const WidgetPostList = ({ postData }) => {
+  if (!postData || postData.length === 0) {
+    return <p>No posts found.</p>;
+  }
   return (
     <div className="axil-single-widget widget widget_postlist mb--30">
       <h5 className="widget-title">Popular on Blogar</h5>

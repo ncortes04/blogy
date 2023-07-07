@@ -22,28 +22,22 @@ const filters = [
     },
   ];
 
-const defaultActiveCat = slugify(filters[0].cate);
 
 const Nav = ({posts}) => {
 
-    const defaultData = posts.filter(
-        (post) => slugify(post.cate) === defaultActiveCat
-      );
     
-      const [activeNav, setActiveNav] = useState(defaultActiveCat);
-      const [tabPostData, setTabPostData] = useState(defaultData);
+      const [tabPostData, setTabPostData] = useState(posts);
     
       const handleChange = (e) => {
-        let filterText = slugify(e.target.textContent);
-        setActiveNav(filterText);
+        let filterText = e.target.textContent;
         
         let tempData = [];
     
         for (let i = 0; i < posts.length; i++) {
           const element = posts[i];
-          let categories = element["cate"];
+          let categories = element.category;
     
-          if (slugify(categories).includes(filterText)) {
+          if (categories.includes(filterText)) {
             tempData.push(element);
           }
         }
@@ -116,7 +110,7 @@ const Nav = ({posts}) => {
                         <div className="axil-vertical-nav">
                             <ul className="vertical-nav-menu">
                                 {filters.map((data) => (
-                                    <li className={`vertical-nav-item ${slugify(data.cate) === activeNav ? "active" : ""}`} key={data.id}>
+                                    <li className={`vertical-nav-item `} key={data.id}>
                                         <a className="hover-flip-item-wrapper" href="#" onMouseOver={handleChange}>
                                             <span className="hover-flip-item">
                                                 <span data-text={data.cate}>{data.cate}</span>
@@ -134,13 +128,13 @@ const Nav = ({posts}) => {
                                 <div className="axil-vertical-single">
                                     <div className="row">
                                         {tabPostData.slice(0, 4).map((data) => (
-                                            <div className="col-lg-3" key={data.slug}>
+                                            <div className="col-lg-3" key={data.id}>
                                                 <div className="content-block image-rounded">
                                                     <div className="post-thumbnail mb--20">
-                                                    <Link href={`/post/${data.slug}`}>
+                                                    <Link href={`/viewpost?id=${data.id}`}>
                                                         <a>
                                                         <Image
-                                                            src={data.featureImg}
+                                                            src='/images/posts/thumbnail-01.webp'
                                                             alt={data.title}
                                                             height={130}
                                                             width={200}
@@ -152,11 +146,11 @@ const Nav = ({posts}) => {
                                                     <div className="post-content">
                                                         <div className="post-cat">
                                                             <div className="post-cat-list">
-                                                            <Link href={`/category/${slugify(data.cate)}`}>
+                                                            <Link href={`/category?fil=${data.category}`}>
                                                                 <a className="hover-flip-item-wrapper">
                                                                 <span className="hover-flip-item">
-                                                                    <span data-text={data.cate}>
-                                                                    {data.cate}
+                                                                    <span data-text={data.category}>
+                                                                    {data.category}
                                                                     </span>
                                                                 </span>
                                                                 </a>
@@ -164,8 +158,8 @@ const Nav = ({posts}) => {
                                                             </div>
                                                         </div>
                                                         <h5 className="title">
-                                                            <Link href={`/post/${data.slug}`}>
-                                                                <a>{data.title}</a>
+                                                            <Link href={`/viewpost?id=${data.id}`}>
+                                                                <a>{data.name}</a>
                                                             </Link>
                                                         </h5>
                                                     </div>

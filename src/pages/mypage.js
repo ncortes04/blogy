@@ -3,16 +3,18 @@ import { useRouter } from "next/router";
 import NextNprogress from "nextjs-progressbar";
 import Image from "next/image";
 import Link from "next/link";
+import axios from "axios";
 import { getAllPosts } from "../../lib/api";
 import InstagramOne from "../common/components/instagram/InstagramOne";
 import FooterOne from "../common/elements/footer/FooterOne";
 import HeaderOne from "../common/elements/header/HeaderOne";
 import HeadTitle from "../common/elements/head/HeadTitle";
+import PostLayoutTwo from "../common/components/post/layout/PostLayoutTwo";
 import SidebarOne from "../common/components/sidebar/SidebarOne";
 import authservice from "../common/utils/authservice";
 import MarkdownEditor from "../common/elements/posts/MarkdownEditor";
 import { FaPencilAlt, FaCheck, FaTimes } from "react-icons/fa";
-import { BiMessageSquareAdd } from 'react-icons/bi';
+import { BiMessageSquareAdd } from "react-icons/bi";
 
 const LoadingBar = () => {
   return (
@@ -30,17 +32,25 @@ const AuthorArchive = ({ token, allPosts }) => {
   const [myData, setMyData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [addPost, setAddPost] = useState(false);
+  const [social, setSocial] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({
+  const [selectedImage, setSelectedImage] = useState(null)
+  const [dataFields, setDataFields] = useState({
     name: "",
     designation: "",
     bio: "",
+    facebook: "",
+    instagram: "",
+    twitter: "",
+    linkedin: "",
   });
-
+  
+  const handleImageSelect = (e) => {
+    const file = e.target.files[0];
+    setSelectedImage(file);
+  };
   useEffect(() => {
     const fetchData = async () => {
-      // Access the token from localStorage or any other client-side storage
-      // Send a POST request with the user ID in the request body and bearer token in the Authorization header
       token = localStorage.getItem("id_token");
       try {
         const response = await fetch("http://localhost:3000/api/me", {
@@ -52,11 +62,35 @@ const AuthorArchive = ({ token, allPosts }) => {
         });
         const userData = await response.json();
         setMyData(userData.foundUser);
-        setFormData({
+        setDataFields({
           name: userData.foundUser.name,
           designation: userData.foundUser.designation,
           bio: userData.foundUser.bio,
+          facebook: userData.foundUser.facebook || "",
+          instagram: userData.foundUser.instagram || "",
+          twitter: userData.foundUser.twitter || "",
+          linkedin: userData.foundUser.linkedin || "",
         });
+
+        const socialLinks = [
+          {
+            icon: "fab fa-facebook-f",
+            url: userData.foundUser.facebook || "https://facebook.com/",
+          },
+          {
+            icon: "fab fa-twitter",
+            url: userData.foundUser.twitter || "https://twitter.com",
+          },
+          {
+            icon: "fab fa-instagram",
+            url: userData.foundUser.instagram || "https://instagram.com",
+          },
+          {
+            icon: "fab fa-linkedin",
+            url: user.instagram || "https://linkedin.com",
+          },
+        ];
+        setSocial(socialLinks);
       } catch (error) {
         console.error(error);
       } finally {
@@ -68,8 +102,8 @@ const AuthorArchive = ({ token, allPosts }) => {
   }, []);
 
   const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
+    setDataFields({
+      ...dataFields,
       [e.target.name]: e.target.value,
     });
   };
@@ -85,34 +119,41 @@ const AuthorArchive = ({ token, allPosts }) => {
   const handleCancel = () => {
     setIsEditing(false);
   };
+
+  // ...
+  
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent the default form submission behavior
-    token = localStorage.getItem("id_token");
-
+  
+    const token = localStorage.getItem("id_token");
+  
     try {
-      const response = await fetch(`/api/editProfile`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
+      const formData = new FormData();
+    formData.append("image", selectedImage);
+    Object.entries(dataFields).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+    const response = await fetch("/api/editProfile", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+  
+      if (response.status === 200) {
+        const data = response.data;
         // Handle the response data
         setMyData(data.user);
         setIsEditing(false);
       } else {
         // Handle error response
-        const errorData = await response.json();
-        console.error(errorData.message);
+        console.error(response.data.message);
       }
     } catch (error) {
       console.error(error);
     }
   };
+
   if (loading) {
     return (
       <>
@@ -137,7 +178,7 @@ const AuthorArchive = ({ token, allPosts }) => {
                     <Link href="#">
                       <a>
                         <Image
-                          src={"/images/posts/author/author-b5.webp"}
+                          src={myData.img}
                           alt={"asdada"}
                           height={105}
                           width={105}
@@ -145,7 +186,16 @@ const AuthorArchive = ({ token, allPosts }) => {
                         />
                       </a>
                     </Link>
+                    {isEditing ? (
+                      <div className="file-upload">
+                        <label>Upload Profile Image</label>{" "}
+                        <input type="file" onChange={handleImageSelect} />
+                      </div>
+                    ) : (
+                      ""
+                    )}
                   </div>
+
                   <div className="media-body">
                     <div className="author-info">
                       {isEditing ? (
@@ -157,7 +207,7 @@ const AuthorArchive = ({ token, allPosts }) => {
                             type="text"
                             id="name"
                             name="name"
-                            value={formData.name}
+                            value={dataFields.name}
                             onChange={handleInputChange}
                           />
                         </div>
@@ -180,7 +230,7 @@ const AuthorArchive = ({ token, allPosts }) => {
                               type="text"
                               id="designation"
                               name="designation"
-                              value={formData.designation}
+                              value={dataFields.designation}
                               onChange={handleInputChange}
                             />
                           </div>
@@ -198,12 +248,73 @@ const AuthorArchive = ({ token, allPosts }) => {
                           <textarea
                             id="bio"
                             name="bio"
-                            value={formData.bio}
+                            value={dataFields.bio}
                             onChange={handleInputChange}
                           />
+                          <div className="social-links">
+                            <div className="input-wrapper">
+                              <label htmlFor="facebook" className="edit-label">
+                                Facebook:
+                              </label>
+                              <input
+                                type="text"
+                                id="facebook"
+                                name="facebook"
+                                value={dataFields.facebook}
+                                onChange={handleInputChange}
+                              />
+                            </div>
+                            <div className="input-wrapper">
+                              <label htmlFor="instagram" className="edit-label">
+                                Instagram:
+                              </label>
+                              <input
+                                type="text"
+                                id="instagram"
+                                name="instagram"
+                                value={dataFields.instagram}
+                                onChange={handleInputChange}
+                              />
+                            </div>
+                            <div className="input-wrapper">
+                              <label htmlFor="twitter" className="edit-label">
+                                Twitter:
+                              </label>
+                              <input
+                                type="text"
+                                id="twitter"
+                                name="twitter"
+                                value={dataFields.twitter}
+                                onChange={handleInputChange}
+                              />
+                            </div>
+                            <div className="input-wrapper">
+                              <label htmlFor="linkedin" className="edit-label">
+                                LinkedIn:
+                              </label>
+                              <input
+                                type="text"
+                                id="linkedin"
+                                name="linkedin"
+                                value={dataFields.linkedin}
+                                onChange={handleInputChange}
+                              />
+                            </div>
+                          </div>
                         </div>
                       ) : (
-                        <p className="b1 description">{myData.bio}</p>
+                        <>
+                          <p className="b1 description">{myData.bio}</p>
+                          <ul className="social-share-transparent size-md">
+                            {social.map((social) => (
+                              <li key={social.url}>
+                                <a href={social.url}>
+                                  <i className={social.icon} />
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        </>
                       )}
                       {isEditing ? (
                         <>
@@ -230,26 +341,36 @@ const AuthorArchive = ({ token, allPosts }) => {
         <div className="container">
           <div className="row">
             <div className="col-lg-8 col-xl-8">
-            <div className="page-title">
+              <div className="page-title">
                 <div className="name-spacer">
                   <h2 className="title">My Articles</h2>
-                  {!addPost ? 
-                  <button className="message-btn hover" onClick={() => setAddPost(true)}>
-                    <BiMessageSquareAdd style={{ fontSize: '5rem' }}/>
-                  </button>
-                  : <button className="message-btn" onClick={() => setAddPost(false)}>
-                      <FaTimes style={{ fontSize: '5rem' }}/>
+                  {!addPost ? (
+                    <button
+                      className="message-btn hover"
+                      onClick={() => setAddPost(true)}
+                    >
+                      <BiMessageSquareAdd style={{ fontSize: "5rem" }} />
                     </button>
-                  }
-                 
+                  ) : (
+                    <button
+                      className="message-btn"
+                      onClick={() => setAddPost(false)}
+                    >
+                      <FaTimes style={{ fontSize: "5rem" }} />
+                    </button>
+                  )}
                 </div>
                 {addPost ? <MarkdownEditor /> : null}
               </div>
-              {/* {myData.post.length > 0 ? (
-                <PostLayoutTwo dataPost={authorData} show="5" />
+              {myData.post && myData.post.length > 0 ? (
+                <PostLayoutTwo
+                  user={{ name: myData.name, id: myData.id }}
+                  dataPost={myData.post}
+                  show="5"
+                />
               ) : (
                 <div>No posts</div>
-              )} */}
+              )}
             </div>
             <div className="col-lg-4 col-xl-4 mt_md--40 mt_sm--40">
               <SidebarOne dataPost={allPosts} />
