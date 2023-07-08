@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import { slugify } from "../../utils";
 import { SectionTitleOne } from "../../elements/sectionTitle/SectionTitle";
 import AddBanner from "../ad-banner/AddBanner";
 
@@ -47,7 +46,7 @@ const PostSectionThree = ({ postData, adBanner, bgColor, heading }) => {
               <div className="post-content">
                 <div className="post-cat">
                   <div className="post-cat-list">
-                    <Link href={`/category/${slugify(firstPost.cate)}`}>
+                    <Link href={`/category?fil=${firstPost.category}`}>
                       <a className="hover-flip-item-wrapper">
                         <span className="hover-flip-item">
                           <span data-text={firstPost.cate}>
@@ -67,7 +66,7 @@ const PostSectionThree = ({ postData, adBanner, bgColor, heading }) => {
                   <div className="post-meta">
                     <div className="content">
                       <h6 className="post-author-name">
-                        <Link href={`/author/${slugify(firstPost.author_name)}`}>
+                        <Link href={`/author?id=${firstPost.id}`}>
                           <a className="hover-flip-item-wrapper">
                             <span className="hover-flip-item">
                               <span data-text={firstPost.author_name}>
@@ -84,13 +83,13 @@ const PostSectionThree = ({ postData, adBanner, bgColor, heading }) => {
                     </div>
                   </div>
                   <ul className="social-share-transparent justify-content-end">
-                    {firstPost.author_social.map((social) =>(
+                    {/* {firstPost.author_social.map((social) =>(
                       <li key={social.url}>
                         <a href={social.url}>
                           <i className={social.icon} />
                         </a>
                       </li>
-                    ))}
+                    ))} */}
                   </ul>
                 </div>
               </div>
@@ -125,11 +124,11 @@ const PostSectionThree = ({ postData, adBanner, bgColor, heading }) => {
                     <div className="post-content">
                       <div className="post-cat">
                         <div className="post-cat-list">
-                        <Link href={`/category/${slugify(data.cate)}`}>
+                        <Link href={`/category?fil${data.category}`}>
                           <a className="hover-flip-item-wrapper">
                             <span className="hover-flip-item">
-                              <span data-text={data.cate}>
-                                {data.cate}
+                              <span data-text={data.category}>
+                                {data.category}
                               </span>
                             </span>
                           </a>
@@ -137,8 +136,8 @@ const PostSectionThree = ({ postData, adBanner, bgColor, heading }) => {
                         </div>
                       </div>
                       <h5 className="title">
-                      <Link href={`/post/${data.slug}`}>
-                        <a>{data.title}</a>
+                      <Link href={`/viewpost?id=${data.id}`}>
+                        <a>{data.name}</a>
                       </Link>
                       </h5>
                     </div>

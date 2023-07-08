@@ -106,7 +106,7 @@ const PostSectionEleven = ({ postData }) => {
                                   <Link href={`/viewpost?id=${data.id}`}>
                                     <a>
                                       <Image
-                                        src="/images/posts/thumbnail-01.webp"
+                                        src={data.bannerImg}
                                         alt={data.title}
                                         height={338}
                                         width={600}

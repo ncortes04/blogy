@@ -10,13 +10,11 @@ dotenv.config();
 const prisma = new PrismaClient();
 
 const handler = async (req, res) => {
-  const { user } = req;
-  const { id } = req.params;
-  const currentUserId = user.id;
-
+  const { id } = req.query;
+  const userId = Number(id);
   try {
     const foundUser = await prisma.user.findUnique({
-      where: { id },
+      where: { id: userId },
       select: {
         id: true,
         name: true,
@@ -40,7 +38,6 @@ const handler = async (req, res) => {
         },
       },
     });
-
     const temporaryProfileImageUrl = await getTemporaryImageUrl(
       process.env.AWS_BUCKET_NAME,
       foundUser.img,
@@ -70,10 +67,7 @@ const handler = async (req, res) => {
         .json({ message: "Cannot find a user with this id!" });
     }
 
-    // Check if the current user ID matches the author's ID
-
-
-    res.json({ foundUser, currentUserId });
+    res.json(foundUser);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
@@ -82,4 +76,4 @@ const handler = async (req, res) => {
   }
 };
 
-export default authMiddleware(handler);
+export default handler;

@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const PostAuthor = ({ user, socialLinks }) => {
 
-
+console.log(user)
   return (
     <div className="about-author">
       <div className="media">

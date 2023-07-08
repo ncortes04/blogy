@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { slugify } from "../../../../utils";
 
 const PostComment = ({ comments }) => {
 
@@ -28,7 +27,7 @@ const PostComment = ({ comments }) => {
                     </div>
                     <div className="comment-inner">
                       <h6 className="commenter">
-                        <Link href={`/author/${slugify(comment.user.name)}`}>
+                        <Link href={`/author?id=${comment.user.id}`}>
                           <a className="hover-flip-item-wrapper">
                             <span className="hover-flip-item">
                               <span data-text={comment.user.name}>

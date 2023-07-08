@@ -79,7 +79,7 @@ const PostFormatStandard = ({ postData, allData }) => {
                 <PostComment comments={postData.comment} />
               </div>
             </div>
-            <div className="col-lg-4">{/* <SidebarTwo dataPost={allData} tagData={postData}/> */}</div>
+            <div className="col-lg-4"><SidebarTwo dataPost={allData} tagData={postData}/></div>
           </div>
         </div>
       </div>

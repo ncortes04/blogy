@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import { slugify } from "../../../utils";
 const PostLayoutTwo = ({ dataPost, user, postStart, show, bgColor }) => {
   
   return (

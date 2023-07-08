@@ -1,6 +1,5 @@
 import InstagramOne from "../common/components/instagram/InstagramOne";
 import BreadcrumbTwo from "../common/elements/breadcrumb/breadcrumbTwo";
-import FooterThree from "../common/elements/footer/FooterThree";
 import HeaderOne from "../common/elements/header/HeaderOne";
 import { getAllPosts } from '../../lib/api';
 import WidgetCategory from "../common/components/sidebar/WidgetCategory";
@@ -54,7 +53,7 @@ const AboutUs = ({allPosts}) => {
             </div>
 
             <InstagramOne parentClass="bg-color-grey" />
-            <FooterThree />
+            <FooterTwo />
         </>
     );
 }

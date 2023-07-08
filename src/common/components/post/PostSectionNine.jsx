@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { slugify } from "../../utils";
 
 const PostSectionNine = ({ postData, bgColor }) => {
   if (!postData || postData.length === 0) {

@@ -24,7 +24,7 @@ const handler = async (req, res) => {
       return res.status(400).json({ message: "Cannot find a user with this id!" });
     }
 
-    const { title, description, brief, category, readTime } = req.body;
+    const { title, content, brief, category, readTime } = req.body;
 
     const images = [];
     const sizes = [
@@ -56,7 +56,7 @@ const handler = async (req, res) => {
 
     const postData = {
       name: title,
-      description,
+      description: content,
       brief,
       category,
       read_time: readTime,

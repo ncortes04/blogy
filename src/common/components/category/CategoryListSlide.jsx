@@ -3,13 +3,10 @@ import Image from "next/image";
 import { SectionTitleTwo } from "../../elements/sectionTitle/SectionTitle";
 import {removeDuplicates, slugify} from '../../utils';
 import Slider from "react-slick";
+import data from '../../../data/trendingtops'
 
 const CategoryListSlide = () => {
-  const catData = [
-    {category:"Research"},    
-    {category:"Technology"},
-    {category:"Seo"}
-  ]
+
 
   function SlickNextArrow(props) {
     const { className, onClick } = props;
@@ -73,7 +70,7 @@ const slideSettings = {
         <div className="row">
           <div className="col-lg-12">
 			<Slider {...slideSettings} className="list-categories categories-activation axil-slick-arrow arrow-between-side">
-              {catData.map((data, index) => (
+              {data.map((data, index) => (
                 <div className="single-cat" key={index}>
                 <div className="inner">
                 <Link href={`/category?fil=${data.category}`}>

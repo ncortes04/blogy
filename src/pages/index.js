@@ -1,6 +1,4 @@
 import InstagramOne from "../common/components/instagram/InstagramOne";
-import FooterThree from "../common/elements/footer/FooterThree";
-import HeaderThree from "../common/elements/header/HeaderThree";
 import HeadTitle from "../common/elements/head/HeadTitle";
 import PostSectionNine from '../common/components/post/PostSectionNine';
 import CategoryListSlide from '../common/components/category/CategoryListSlide';
@@ -10,6 +8,8 @@ import PostSectionTen from '../common/components/post/PostSectionTen';
 import PostSectionEleven from '../common/components/post/PostSectionEleven';
 import { useState, useEffect } from "react";
 import HeaderOne from "../common/elements/header/HeaderOne";
+import { all } from "axios";
+import FooterTwo from "../common/elements/footer/FooterTwo";
 
 const TechBlog = ({allPosts}) => {
   const techPost = allPosts.filter(post => post.category === "technology");
@@ -41,11 +41,11 @@ const TechBlog = ({allPosts}) => {
         <PostSectionNine postData={allPosts}/>
         <CategoryListSlide />
         <PostSectionTen postData={allPosts} />
-        {/* <PostSectionThree postData={videoPost} heading="Featured Video"/> */}
-        <PostSectionFour postData={techPost} adBanner={true}/>
+        <PostSectionThree postData={allPosts} heading="Featured Video"/>
+        <PostSectionFour postData={allPosts}/>
         <PostSectionEleven postData={allPosts}/>
         <InstagramOne parentClass="bg-color-grey"/>
-        <FooterThree />
+        <FooterTwo />
         </>
      );
 }

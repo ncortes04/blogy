@@ -3,6 +3,7 @@ import HeaderOne from '../common/elements/header/HeaderOne';
 import FooterOne from '../common/elements/footer/FooterOne';
 import PostFormatStandard from '../common/components/post/format/PostFormatStandard';
 import InstagramOne from '../common/components/instagram/InstagramOne';
+import { useEffect } from 'react';
 
 const PostDetails = ({ post, allPosts }) => {
 
@@ -43,7 +44,6 @@ export async function getServerSideProps(context) {
   } catch (error) {
     console.error(error);
 
-    // Return an empty post object and allPosts array if there was an error
     return {
       props: {
         post: {},

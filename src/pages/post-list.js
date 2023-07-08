@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import InstagramOne from "../common/components/instagram/InstagramOne";
-import FooterThree from "../common/elements/footer/FooterThree";
 import HeaderOne from "../common/elements/header/HeaderOne";
 import SidebarOne from "../common/components/sidebar/SidebarOne";
 import PostLayoutTwo from "../common/components/post/layout/PostLayoutTwo";
 import HeadTitle from "../common/elements/head/HeadTitle";
+import FooterTwo from '../common/elements/footer/FooterTwo';
 
-const PostListPage = ({ allPosts }) => {
+const PostListPage = ({ allPosts, popularPosts}) => {
 
     const [blogs] = useState(allPosts);
     const [pageNumber, setPageNumber] = useState(0);
@@ -44,13 +44,13 @@ const PostListPage = ({ allPosts }) => {
                             />
                         </div>
                         <div className="col-lg-4 col-xl-4 mt_md--40 mt_sm--40">
-                            <SidebarOne dataPost={allPosts} />
+                            <SidebarOne popular={popularPosts} dataPost={allPosts} />
                         </div>
                     </div>
                 </div>
             </div>
             <InstagramOne parentClass="bg-color-grey" />
-            <FooterThree />
+            <FooterTwo />
         </>
     );
 }
@@ -62,9 +62,13 @@ export async function getServerSideProps(context) {
     try {
       const response = await fetch("http://localhost:3000/api/posts/getAllPosts");
       const allPosts = await response.json();
+      const popular = await fetch("http://localhost:3000/api/posts/getAnalytics");
+      const data = await popular.json();
       return {
         props: {
           allPosts,
+          popularPosts: data,
+
         },
       };
     } catch (error) {
@@ -72,9 +76,9 @@ export async function getServerSideProps(context) {
   
       return {
         props: {
+          popularPosts: [],
           post: {},
         },
       };
     }
   }
-  

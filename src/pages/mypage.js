@@ -28,7 +28,7 @@ const LoadingBar = () => {
   );
 };
 
-const AuthorArchive = ({ token, allPosts }) => {
+const MyPage = ({ token, allPosts }) => {
   const [myData, setMyData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [addPost, setAddPost] = useState(false);
@@ -62,6 +62,7 @@ const AuthorArchive = ({ token, allPosts }) => {
             Authorization: `Bearer ${token}`,
           },
         });
+        
         const userData = await response.json();
         setMyData(userData.foundUser);
         setDataFields({
@@ -424,7 +425,7 @@ const AuthorArchive = ({ token, allPosts }) => {
   );
 };
 
-export default AuthorArchive;
+export default MyPage;
 
 export async function getServerSideProps(context) {
   try {
