@@ -11,8 +11,18 @@ import HeadTitle from "../common/elements/head/HeadTitle";
 import { useRouter } from 'next/router';
 
 
-const AuthorArchive = ({ userData, allPosts }) => {
+const AuthorArchive = ({ userData, allPosts, currentUserID }) => {
   // Check if user data exists
+  const router = useRouter();
+
+  // Check if userData exists and matches the current user's ID
+  if (userData && userData.id === currentUserID) {
+    // Redirect to the user's home page
+    router.push("/mypage");
+    return null;
+  }
+
+  // Continue rendering the component with the author's information
   const authorData = [
     {
       author_name: "userData.name",
@@ -102,36 +112,36 @@ const AuthorArchive = ({ userData, allPosts }) => {
 export default AuthorArchive;
 
 export async function getServerSideProps(context) {
-    const { id } = context.query;
-    try {
-      // Send a POST request with the user ID in the request body
-      const userResponse = await fetch('http://localhost:3000/api/getauthor', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ id }),
-      });
-  
-      const userData = await userResponse.json();
-      // Fetch all posts
+  const { id } = context.query;
+  //dont forget token, must grab token
+  try {
+    // Send a POST request with the user ID in the request body
+    const userResponse = await fetch('http://localhost:3000/api/getauthor', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id }),
+    });
 
-      const allPosts = getAllPosts(["title", "featureImg", "slug", "cate"]);
-  
-      return {
-        props: {
-          userData,
-          allPosts,
-        },
-      };
-    } catch (error) {
-      console.error(error);
-      return {
-        props: {
-          userData: null,
-          allPosts: [],
-        },
-      };
-    }
+    const userData = await userResponse.json();
+    const {foundUSer, currentUserID} = userData
+    const allPosts = getAllPosts(["title", "featureImg", "slug", "cate"]);
+    console.log(userData)
+    return {
+      props: {
+        currentUserID,
+        userData: foundUSer,
+        allPosts,
+      },
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      props: {
+        userData: null,
+        allPosts: [],
+      },
+    };
   }
-  
+}

@@ -34,7 +34,8 @@ const AuthorArchive = ({ token, allPosts }) => {
   const [addPost, setAddPost] = useState(false);
   const [social, setSocial] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null)
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
   const [dataFields, setDataFields] = useState({
     name: "",
     designation: "",
@@ -44,10 +45,11 @@ const AuthorArchive = ({ token, allPosts }) => {
     twitter: "",
     linkedin: "",
   });
-  
+
   const handleImageSelect = (e) => {
     const file = e.target.files[0];
     setSelectedImage(file);
+    setPreviewImage(URL.createObjectURL(file)); // Create a preview URL for the selected image
   };
   useEffect(() => {
     const fetchData = async () => {
@@ -118,33 +120,34 @@ const AuthorArchive = ({ token, allPosts }) => {
 
   const handleCancel = () => {
     setIsEditing(false);
+    setPreviewImage(null);
   };
 
   // ...
-  
+
   const handleSubmit = async (e) => {
-  
     const token = localStorage.getItem("id_token");
-  
+    
     try {
       const formData = new FormData();
-    formData.append("image", selectedImage);
-    Object.entries(dataFields).forEach(([key, value]) => {
-      formData.append(key, value);
-    });
-    const response = await fetch("/api/editProfile", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData,
-    });
-  
+      formData.append("image", selectedImage);
+      Object.entries(dataFields).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+      const response = await fetch("/api/editProfile", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
       if (response.status === 200) {
         const data = response.data;
         // Handle the response data
         setMyData(data.user);
         setIsEditing(false);
+        handleSave();
       } else {
         // Handle error response
         console.error(response.data.message);
@@ -167,25 +170,66 @@ const AuthorArchive = ({ token, allPosts }) => {
   return (
     <>
       <HeadTitle pageTitle="Author Archive" />
-      <HeaderOne postData={allPosts} />
+      <HeaderOne
+        postData={allPosts}
+        profileIcon={myData.img ? myData.img : ""}
+      />
       <div className="axil-author-area axil-author-banner bg-color-grey">
         <div className="container">
           <div className="row">
             <div className="col-lg-12">
               <div className="about-author">
-                <div className="media">
+                <div className={isEditing ? "media isEdit" : "media"}>
                   <div className="thumbnail">
-                    <Link href="#">
-                      <a>
-                        <Image
-                          src={myData.img}
-                          alt={"asdada"}
-                          height={105}
-                          width={105}
-                          priority={true}
-                        />
-                      </a>
-                    </Link>
+                    {isEditing ? (
+                      <div className="img-edit">
+                        <Link href="#">
+                          <a>
+                            
+                            {previewImage ? (
+                              <Image
+                                src={previewImage}
+                                alt={myData.name}
+                                height={200}
+                                width={200}
+                                priority={true}
+                              />
+                            ) : (
+                              <Image
+                                src={myData.img ? myData.img : ""}
+                                alt={myData.name}
+                                height={200}
+                                width={200}
+                                priority={true}
+                              />
+                            )}
+                          </a>
+                        </Link>
+                      </div>
+                    ) : (
+                      <Link href="#">
+                        <a>
+                          {previewImage ? (
+                            <Image
+                              src={previewImage}
+                              alt={myData.name}
+                              height={105}
+                              width={105}
+                              priority={true}
+                            />
+                          ) : (
+                            <Image
+                              src={myData.img ? myData.img : ""}
+                              alt={myData.name}
+                              height={105}
+                              width={105}
+                              priority={true}
+                            />
+                          )}
+                        </a>
+                      </Link>
+                    )}
+
                     {isEditing ? (
                       <div className="file-upload">
                         <label>Upload Profile Image</label>{" "}
@@ -362,15 +406,11 @@ const AuthorArchive = ({ token, allPosts }) => {
                 </div>
                 {addPost ? <MarkdownEditor /> : null}
               </div>
-              {myData.post && myData.post.length > 0 ? (
                 <PostLayoutTwo
                   user={{ name: myData.name, id: myData.id }}
                   dataPost={myData.post}
                   show="5"
                 />
-              ) : (
-                <div>No posts</div>
-              )}
             </div>
             <div className="col-lg-4 col-xl-4 mt_md--40 mt_sm--40">
               <SidebarOne dataPost={allPosts} />

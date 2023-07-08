@@ -2,19 +2,17 @@ import Link from "next/link";
 import Image from "next/image";
 import { slugify } from "../../../utils";
 const PostLayoutTwo = ({ dataPost, user, postStart, show, bgColor }) => {
-  if (!dataPost || dataPost.length === 0) {
-    return <p>No posts found.</p>;
-  }
+  
   return (
     <>
       {dataPost.map((data) => (
-        <div className={`content-block post-list-view axil-control mt--30`}>
+        <div key={data.image} className={`content-block post-list-view axil-control mt--30`}>
           {data.featureImg ? (
             <div className="post-thumbnail">
               <Link href={`/viewpost?id=${data.id}`}>
                 <a>
                   <Image
-                    src={"/images/posts/thumbnail-08.webp"}
+                    src={data.featureImg}
                     alt={data.title}
                     height={250}
                     width={295}

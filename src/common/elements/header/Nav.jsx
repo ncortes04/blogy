@@ -134,7 +134,7 @@ const Nav = ({posts}) => {
                                                     <Link href={`/viewpost?id=${data.id}`}>
                                                         <a>
                                                         <Image
-                                                            src='/images/posts/thumbnail-01.webp'
+                                                            src={data.featureImg}
                                                             alt={data.title}
                                                             height={130}
                                                             width={200}

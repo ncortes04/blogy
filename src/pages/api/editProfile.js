@@ -1,14 +1,13 @@
 import { PrismaClient } from "@prisma/client";
 import authMiddleware from "./middleware";
 import multer from "multer";
-import dotenv from "dotenv";
-import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import s3Client from "./aws-config";
-import { v4 as uuidv4 } from 'uuid'; // Import the UUID library
+import sharp from 'sharp';
 
 const upload = multer({
-  storage: multer.memoryStorage(), // Store files in memory
-  dest: "uploads/", // Destination folder for disk storage
+  storage: multer.memoryStorage(),
+  dest: "uploads/",
 });
 
 const prisma = new PrismaClient();
@@ -22,21 +21,35 @@ const handler = async (req, res) => {
     const foundUser = await prisma.user.findUnique({
       where: { id: user.id },
     });
+
     if (!foundUser) {
       return res.status(400).json({ message: "Cannot find a user with this id!" });
     }
+
     if (req.file) {
-      const uniqueUrl = `${uuidv4()}_${req.file.originalname}`;
+      if (foundUser.img) {
+        const deleteParams = {
+          Bucket: process.env.AWS_BUCKET_NAME,
+          Key: foundUser.img,
+        };
+        await s3Client.send(new DeleteObjectCommand(deleteParams));
+      }
+
+      const processedImage = await sharp(req.file.buffer)
+        .resize(150, 150) 
+        .toBuffer();
+
+      const uniqueUrl = `${foundUser.name}-profile-icon-${foundUser.id}_${req.file.originalname}`;
       const params = {
         Bucket: process.env.AWS_BUCKET_NAME,
-        Key:  uniqueUrl,
-        Body: req.file.buffer,
+        Key: uniqueUrl,
+        Body: processedImage,
         ContentType: req.file.mimetype,
       };
-      
+
       const command = new PutObjectCommand(params);
       await s3Client.send(command);
-      
+
       await prisma.user.update({
         where: { id: user.id },
         data: { img: uniqueUrl },
@@ -125,7 +138,11 @@ const middleware = (req, res) => {
     });
 };
 
-export default middleware;
+const ProfileImageUploader = (req, res) => {
+  middleware(req, res);
+};
+
+export default ProfileImageUploader;
 
 export const config = {
   api: {

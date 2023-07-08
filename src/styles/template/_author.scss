@@ -2,11 +2,31 @@
     Author Styles  
 -------------------*/
 .axil-author-banner {
+
+    .img-edit {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 10px;
+        a {
+            display: flex;
+            align-items: center;
+            background-color: rgba(209, 209, 209, 0.212);
+            padding: 30px;
+            margin: 10px;
+            border-radius: 10px;
+            justify-content: center;
+        }
+    }
     .file-upload {
         width: fit-content;
         margin-right: 10px;
         border-radius: 10px;
         padding: 10px;
+        @media #{$lg-layout, $sm-layout, $md-layout} {
+            margin: 0px;
+            width: 100%;
+        }     
         border: var(--border-width) solid var(--color-border);
         input {
             border: none;
@@ -16,6 +36,12 @@
     .about-author {
         padding: 80px 0;
         border-bottom: 0 none;
+        .media {
+            &.isEdit{@media #{$lg-layout, $sm-layout, $md-layout} {
+              flex-direction: column;
+            }     
+        }   
+        }
         .thumbnail {
             a {
                 img {

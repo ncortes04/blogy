@@ -4,7 +4,7 @@ import Link from 'next/link'
 import MobileMenu from './MobileMenu';
 import Nav from './Nav';
 import { AuthService } from '../../utils';
-const HeaderOne = ({pClass, darkLogo, lightLogo, postData}) => {
+const HeaderOne = ({profileIcon, pClass, darkLogo, lightLogo, postData}) => {
     if (typeof window !== "undefined") {
         var colorMode = window.localStorage.getItem('color-mode');
     }
@@ -94,12 +94,12 @@ const HeaderOne = ({pClass, darkLogo, lightLogo, postData}) => {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="#">
+                                        <Link href="/mypage">
                                             <a>
                                                 <Image
                                                 width={40}
                                                 height={40}
-                                                src="/images/others/author.webp"
+                                                src={profileIcon || "/images/others/author.webp"}
                                                 alt="Author Images"
                                                 />
                                             </a>

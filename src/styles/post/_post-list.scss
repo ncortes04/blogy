@@ -546,20 +546,19 @@ Post List Style
                     padding-bottom: 20px;
                 }
                 .post-content {
-                    background: transparent !important;
                     padding: 0;
                     .post-cat {
                         .post-cat-list {
+
                             a {
-                                color: var(--color-lightest);
                                 @extend %transition;
                                 &.hover-flip-item-wrapper {
                                     span {
                                         &::before {
-                                            color: var(--color-white);
+                                            color: var(--color-secondary);
                                         }
                                         &::after {
-                                            color: var(--color-primary);
+                                            color: var(--color-secondary);
                                         }
                                     }
                                 }
@@ -570,7 +569,7 @@ Post List Style
                         }
                     } 
                     .title {
-                        color: var(--color-white);
+                        color: black;
                     }
                 }
             }

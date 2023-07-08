@@ -21,7 +21,7 @@ const PostSectionNine = ({ postData, bgColor }) => {
                   <Link href={`/viewpost?id=${firstPost.id}`}>
                     <a>
                       <Image
-                        src="/images/posts/thumbnail-01.webp"
+                        src={firstPost.bannerImg}
                         alt={firstPost.name}
                         height={600}
                         width={600}
@@ -32,7 +32,7 @@ const PostSectionNine = ({ postData, bgColor }) => {
                 </div>
               )}
               <div className="post-grid-content">
-                <div className="post-content">
+                <div className="post-content first-img">
                   <div className="post-cat">
                     <div className="post-cat-list">
                       {firstPost && (
@@ -69,10 +69,10 @@ const PostSectionNine = ({ postData, bgColor }) => {
                   <div className="content-block post-default image-rounded">
                     {data && (
                       <div className="post-thumbnail">
-                        <Link href={`/post/${data.slug}`}>
+                        <Link href={`/viewpost?id=${data.id}`}>
                           <a>
                             <Image
-                              src="/images/posts/thumbnail-01.webp"
+                              src={data.featureImg}
                               alt={data.name}
                               height={190}
                               width={285}

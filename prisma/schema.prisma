@@ -33,10 +33,15 @@ model post {
   category     String?   @db.VarChar(255)
   read_time    String?   @db.VarChar(255)
   brief        String?   @db.VarChar(255)
-  image        String?   @db.VarChar(255) // New image attribute
+  featureImg   String?   @db.VarChar(255)
+  bannerImg    String?   @db.VarChar(255)
+  iconImg      String?   @db.VarChar(255)
+  views        Int       @default(0) // New views attribute
 
   @@index([user_id], map: "user_id")
 }
+
+
 
 model user {
   id           Int      @id @default(autoincrement())

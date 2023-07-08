@@ -10,14 +10,14 @@ const WidgetPostList = ({ postData }) => {
       <h5 className="widget-title">Popular on Blogar</h5>
       <div className="post-medium-block">
         {postData.slice(0, 3).map((data) => (
-          <div className="content-block post-medium mb--20" key={data.slug}>
+          <div className="content-block post-medium mb--20" key={data.id}>
 			  {data.featureImg ? 
             <div className="post-thumbnail">
-              <Link href={`/post/${data.slug}`}>
+              <Link href={`/viewpost?id=${data.id}`}>
                 <a>
                   <Image
                     src={data.featureImg}
-                    alt={data.title}
+                    alt={data.name}
                     height={100}
                     width={100}
                     priority={true}
@@ -28,13 +28,13 @@ const WidgetPostList = ({ postData }) => {
 			:""}
             <div className="post-content">
               <h6 className="title">
-                <Link href={`/post/${data.slug}`}>
-                  <a>{data.title}</a>
+              <Link href={`/viewpost?id=${data.id}`}>
+                  <a>{data.name}</a>
                 </Link>
               </h6>
               <div className="post-meta">
                 <ul className="post-meta-list">
-                  <li>{data.date}</li>
+                  <li>{data.created_at}</li>
                   <li>{data.post_views}</li>
                 </ul>
               </div>

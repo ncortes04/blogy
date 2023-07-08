@@ -8,7 +8,7 @@ const SidebarOne = ({ col, dataPost, isMyPage}) => {
   return (
     <div className="sidebar-inner">
       {isMyPage ? null : null}
-      {/* <WidgetCategory catData={dataPost}/> */}
+      <WidgetCategory catData={dataPost}/>
       <WidgetSearch />
       <WidgetPostList postData={dataPost}/>
       <WidgetSocialShare />

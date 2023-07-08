@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import {getTemporaryImageUrl} from "./s3Utils";
+import { getTemporaryImageUrl } from "./s3Utils";
 import authMiddleware from "./middleware";
 import { GetObjectCommand } from "@aws-sdk/client-s3";
 import s3Client from "./aws-config";
@@ -15,15 +15,44 @@ const handler = async (req, res) => {
   try {
     const foundUser = await prisma.user.findUnique({
       where: { id: user.id },
-      include: {
-        post: true,
+      select: {
+        id: true,
+        name: true,
+        bio: true,
+        designation: true,
+        img: true,
+        facebook: true,
+        instagram: true,
+        twitter: true,
+        linkedin: true,
+        post: {
+          select: {
+            id: true,
+            name: true,
+            description: true,
+            brief: true,
+            category: true,
+            read_time: true,
+            featureImg: true,
+          },
+        },
       },
     });
 
-    // Retrieve temporary image URL
-    const temporaryImageUrl = await getTemporaryImageUrl(process.env.AWS_BUCKET_NAME, foundUser.img, 3600);
+    const temporaryProfileImageUrl = await getTemporaryImageUrl(process.env.AWS_BUCKET_NAME, foundUser.img, 3600);
+    foundUser.img = temporaryProfileImageUrl;
 
-    foundUser.img = temporaryImageUrl;
+    const postsWithTemporaryUrls = await Promise.all(
+      foundUser.post.map(async (post) => {
+        if(!post.featureImg){
+          return post
+        }
+        const temporaryImageUrl = await getTemporaryImageUrl(process.env.AWS_BUCKET_NAME, post.featureImg, 3600);
+        return { ...post, featureImg: temporaryImageUrl };
+      })
+    );
+
+    foundUser.post = postsWithTemporaryUrls
 
     if (!foundUser) {
       return res.status(400).json({ message: "Cannot find a user with this id!" });

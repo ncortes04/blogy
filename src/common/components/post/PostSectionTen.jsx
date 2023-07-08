@@ -82,7 +82,7 @@ const PostSectionTen = ({ postData }) => {
                                 <Link href={`/viewpost?id=${data.id}`}>
                                   <a>
                                     <Image
-                                      src="/images/posts/thumbnail-01.webp"
+                                      src={data.iconImg}
                                       alt={data.title}
                                       height={100}
                                       width={100}
@@ -127,8 +127,8 @@ const PostSectionTen = ({ postData }) => {
                             <Link href={`/viewpost?id=${firstPost.id}`}>
                               <a>
                                 <Image
-                                  src="/images/posts/thumbnail-01.webp"
-                                  alt={firstPost.title}
+                                  src={firstPost.bannerImg}
+                                  alt={firstPost.name}
                                   height={660}
                                   width={705}
                                   priority={true}

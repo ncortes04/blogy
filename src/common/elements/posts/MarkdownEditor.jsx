@@ -1,71 +1,77 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import dynamic from "next/dynamic";
 import axios from "axios";
 
 const ReactMarkdown = dynamic(() => import("react-markdown"));
 
 const MarkdownEditor = () => {
-  const [content, setContent] = useState("");
-  const [title, setTitle] = useState("");
+  const [dataFields, setDataFields] = useState({
+    content: "",
+    title: "",
+    selectedOption: null,
+    category: "",
+    readTime: "",
+    brief: "",
+  });
   const [previewVisible, setPreviewVisible] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [previewContent, setPreviewContent] = useState("");
+  const [featuredImage, setFeaturedImage] = useState(null)
   const [lineIndex, setLineIndex] = useState(0);
-  const [category, setCategory] = useState("");
-  const [readTime, setReadTime] = useState("");
-  const [brief, setBrief] = useState("");
+  const [previewContent, setPreviewContent] = useState("");
 
-  const handleOptionToggle = (option) => {
-    const lines = content.split("\n");
-    const currentLineIndex = lineIndex;
-    const updatedLines = lines.map((line, index) => {
-      if (index === currentLineIndex) {
-        let val = 0;
-        if (line.startsWith("**") && line.endsWith("**")) {
-          line = line.slice(2, -2);
-        } else if(line.startsWith("*") && line.endsWith("*")){
-          line = line.slice(1, -1);
-        } else {
-          for (const letter of line) {
-            if (letter === " ") {
-              break;
-            } else {
-              val++;
+  const handleOptionToggle = useCallback((option) => {
+    setDataFields((prevFormData) => {
+      const lines = prevFormData.content.split("\n");
+      const currentLineIndex = lineIndex;
+      const updatedLines = lines.map((line, index) => {
+        if (index === currentLineIndex) {
+          let val = 0;
+          if (line.startsWith("**") && line.endsWith("**")) {
+            line = line.slice(2, -2);
+          } else if (line.startsWith("*") && line.endsWith("*")) {
+            line = line.slice(1, -1);
+          } else {
+            for (const letter of line) {
+              if (letter === " ") {
+                break;
+              } else {
+                val++;
+              }
             }
           }
-        }
-        
-        if (option === "*") {
-          if (!line.startsWith("*") && !line.endsWith("*")) {
-            return `${option}${line.substring(val).trim()}${option}`;
-          } else if (line.startsWith("*") && line.endsWith("*")) {
-            return line.slice(1, -1);
+  
+          if (option === "*") {
+            if (!line.startsWith("*") && !line.endsWith("*")) {
+              return `${option}${line.substring(val).trim()}${option}`;
+            } else if (line.startsWith("*") && line.endsWith("*")) {
+              return line.slice(1, -1);
+            }
+          } else if (option === "**") {
+            if (!line.startsWith("**") && !line.endsWith("**")) {
+              return `${option}${line.substring(val).trim()}${option}`;
+            } else if (line.startsWith("**") && line.endsWith("**")) {
+              return line.slice(2, -2);
+            }
           }
-        } else if (option === "**") {
-          if (!line.startsWith("**") && !line.endsWith("**")) {
-            return `${option}${line.substring(val).trim()}${option}`;
-          } else if (line.startsWith("**") && line.endsWith("**")) {
-            return line.slice(2, -2);
-          }
+          return `${option} ${line.substring(val).trim()}`;
+        } else {
+          return line;
         }
-        return `${option} ${line.substring(val).trim()}`;
-      } else {
-        return line;
-      }
+      });
+  
+      const updatedContent = updatedLines.join("\n");
+      return { ...prevFormData, content: updatedContent, selectedOption: option };
     });
-    setContent(updatedLines.join("\n"));
-    setSelectedOption(option);
+  
     setPreviewVisible(true);
+  }, [lineIndex, setDataFields, setPreviewVisible]);
   
-    const updatedPreviewContent = updatedLines.join("\n");
-    setPreviewContent(updatedPreviewContent);
-  };
-  
-  const handleContentChange = (e) => {
-    if (e.target.value.charAt(e.target.value.length - 1) === "\n") {
+
+  const handleContentChange = useCallback((e) => {
+    const { value } = e.target;
+    if (value.charAt(value.length - 1) === "\n") {
       return;
     }
-    const lines = e.target.value.split("\n");
+    const lines = value.split("\n");
     const currentLineIndex = e.target.selectionStart;
     const currentLine = lines.findIndex(
       (_, index) => index <= currentLineIndex && index + 1 >= currentLineIndex
@@ -73,35 +79,34 @@ const MarkdownEditor = () => {
 
     const updatedLines = lines.map((line, index) => {
       if (index === currentLine && line.trim() === "") {
-        return `${selectedOption} `;
+        return `${dataFields.selectedOption} `;
       }
       return line;
     });
-    setContent(updatedLines.join("\n"));
 
-    const updatedPreviewContent = updatedLines.join("\n");
-    setPreviewContent(updatedPreviewContent);
-  };
+    setDataFields((prev) => ({ ...prev, content: updatedLines.join("\n") }));
+    setPreviewContent(updatedLines.join("\n"));
+  }, [dataFields.selectedOption]);
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = useCallback((e) => {
     if (e.key === "Enter") {
-      const lines = content.split("\n");
-      if (selectedOption === "*") {
-        lines.push(`${selectedOption} `);
-      } else if (selectedOption === "**") {
-        lines.push(`${selectedOption} ${selectedOption}`);
+      const lines = dataFields.content.split("\n");
+      if (dataFields.selectedOption === "*") {
+        lines.push(`${dataFields.selectedOption} `);
+      } else if (dataFields.selectedOption === "**") {
+        lines.push(`${dataFields.selectedOption} ${dataFields.selectedOption}`);
       } else {
-        lines.push(`${selectedOption} `);
+        lines.push(`${dataFields.selectedOption} `);
       }
-      let join = lines.join("\n");
-      setContent(join);
+      const updatedContent = lines.join("\n");
+      setDataFields((prev) => ({ ...prev, content: updatedContent }));
       setLineIndex(lines.length - 1);
-      setPreviewContent(join);
+      setPreviewContent(updatedContent);
     }
-  };
+  }, [dataFields.content, dataFields.selectedOption]);
 
-  const changeLineIndex = (e) => {
-    let letter = e.target.selectionStart;
+  const changeLineIndex = useCallback((e) => {
+    const letter = e.target.selectionStart;
     let count = 0;
     for (let i = 0; i < letter; i++) {
       if (previewContent.charAt(i) === "\n") {
@@ -109,51 +114,51 @@ const MarkdownEditor = () => {
       }
     }
     setLineIndex(count);
-  };
+  }, [previewContent]);
 
-  const handlePaste = (e) => {
+  const handlePaste = useCallback((e) => {
     const pastedContent = e.clipboardData.getData("text/plain");
-    const updatedContent = content + pastedContent;
-    setContent(updatedContent);
+    const updatedContent = dataFields.content + pastedContent;
+    setDataFields((prev) => ({ ...prev, content: updatedContent }));
+    setPreviewContent(updatedContent.split("\n").join("\n"));
+  }, [dataFields.content]);
 
-    const updatedPreviewContent = updatedContent.split("\n").join("\n");
-    setPreviewContent(updatedPreviewContent);
-  };
-
-  const handleSubmit = async () => {
+  const handleFeaturedImageSelect = useCallback((e) => {
+    const file = e.target.files[0];
+    setFeaturedImage(file)
+  }, []);
+  const handleSubmit = useCallback(async () => {
     const token = localStorage.getItem("id_token");
     try {
-      const response = await fetch("http://localhost:3000/api/addPost", {
+      const formData = new FormData();
+      formData.append("image", featuredImage);
+      Object.entries(dataFields).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+      const response = await fetch("/api/addPost", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          name: title,
-          description: content,
-          category,
-          read_time: readTime,
-          brief,
-        }),
+        body: formData,
       });
-
-      const data = await response.json();
     } catch (error) {
       console.error(error);
     }
-  };
-
+  }, [dataFields]);
+  console.log(dataFields)
+  const { content, title, selectedOption, category, readTime, brief } = dataFields;
   return (
     <div className="markdown-container">
       <label>Title:</label>
-      <input value={title} onChange={(e) => setTitle(e.target.value)} />
+      <input value={title} onChange={(e) => setDataFields((prev) => ({ ...prev, title: e.target.value }))} />
       <div>
+        <div>
+          <label>Featured Image:</label>
+          <input type="file" onChange={handleFeaturedImageSelect} />
+        </div>
         <label>Category:</label>
-        <select
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-        >
+        <select value={category} onChange={(e) => setDataFields((prev) => ({ ...prev, category: e.target.value }))}>
           <option value="">Select Category</option>
           <option value="Design">Design</option>
           <option value="SEO">SEO</option>
@@ -165,7 +170,7 @@ const MarkdownEditor = () => {
 
       <div>
         <label>Read Time:</label>
-        <select value={readTime} onChange={(e) => setReadTime(e.target.value)}>
+        <select value={readTime} onChange={(e) => setDataFields((prev) => ({ ...prev, readTime: e.target.value }))}>
           <option value="">Select Read Time</option>
           <option value="1 min">1 min</option>
           <option value="5 min">5 min</option>
@@ -174,11 +179,11 @@ const MarkdownEditor = () => {
         </select>
       </div>
       <div>
-      <label>Brief:</label>
+        <label>Brief:</label>
         <input
           type="text"
           value={brief}
-          onChange={(e) => setBrief(e.target.value)}
+          onChange={(e) => setDataFields((prev) => ({ ...prev, brief: e.target.value }))}
         />
       </div>
       <div className="button-container">
@@ -222,10 +227,10 @@ const MarkdownEditor = () => {
       <label>Body:</label>
       <textarea
         value={content}
-        onClick={(e) => changeLineIndex(e)}
-        onChange={(e) => handleContentChange(e)}
-        onKeyDown={(e) => handleKeyDown(e)}
-        onPaste={(e) => handlePaste(e)}
+        onClick={changeLineIndex}
+        onChange={handleContentChange}
+        onKeyDown={handleKeyDown}
+        onPaste={handlePaste}
       />
 
       {previewVisible && (
@@ -234,7 +239,9 @@ const MarkdownEditor = () => {
         </div>
       )}
 
-      <button className="submit-btn" onClick={handleSubmit}>Submit</button>
+      <button className="submit-btn" onClick={handleSubmit}>
+        Submit
+      </button>
     </div>
   );
 };

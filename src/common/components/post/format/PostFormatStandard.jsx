@@ -36,13 +36,13 @@ const PostFormatStandard = ({ postData, allData }) => {
 
   return (
     <>
-      {postData.featureImg ? <PostMetaOne metaData={postData} /> : ''}
+      {postData.bannerImg ? <PostMetaOne socialLinks={socialLinks} metaData={postData} /> : ''}
 
       <div className="post-single-wrapper axil-section-gap bg-color-white">
         <div className="container">
           <div className="row">
             <div className="col-lg-8">
-              {postData.featureImg ? (
+              {postData.bannerImg ? (
                 ''
               ) : (
                 <PostMetaTwo metaData={postData} socialLinks={socialLinks} />

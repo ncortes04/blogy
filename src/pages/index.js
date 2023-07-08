@@ -8,14 +8,36 @@ import PostSectionThree from '../common/components/post/PostSectionThree';
 import PostSectionFour from '../common/components/post/PostSectionFour';
 import PostSectionTen from '../common/components/post/PostSectionTen';
 import PostSectionEleven from '../common/components/post/PostSectionEleven';
+import { useState, useEffect } from "react";
+import HeaderOne from "../common/elements/header/HeaderOne";
 
 const TechBlog = ({allPosts}) => {
   const techPost = allPosts.filter(post => post.category === "technology");
-  
+  const [myData, setMyData] = useState({})
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = localStorage.getItem("id_token");
+      try {
+        const response = await fetch("http://localhost:3000/api/me", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const userData = await response.json();
+        setMyData(userData.foundUser);
+      } catch (error) {
+        console.error(error);
+      } 
+    };
+
+    fetchData();
+  }, []);
     return ( 
         <>
         <HeadTitle pageTitle="Tech Blog"/>
-        <HeaderThree postData={allPosts}/>
+        <HeaderOne postData={allPosts} profileIcon={myData.img}/>
         <PostSectionNine postData={allPosts}/>
         <CategoryListSlide />
         <PostSectionTen postData={allPosts} />
@@ -35,6 +57,7 @@ export async function getServerSideProps(context) {
   try {
     const response = await fetch("http://localhost:3000/api/posts/getAllPosts");
     const allPosts = await response.json();
+    
     return {
       props: {
         allPosts,
