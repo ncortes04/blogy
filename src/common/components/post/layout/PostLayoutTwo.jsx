@@ -1,11 +1,22 @@
 import Link from "next/link";
 import Image from "next/image";
 const PostLayoutTwo = ({ dataPost, user, postStart, show, bgColor }) => {
-  
+  if (!dataPost.length) {
+    return (
+      <>
+        <div>
+          <h1>No Results Found</h1>
+        </div>
+      </>
+    );
+  }
   return (
     <>
       {dataPost.map((data) => (
-        <div key={data.image} className={`content-block post-list-view axil-control mt--30`}>
+        <div
+          key={data.image}
+          className={`content-block post-list-view axil-control mt--30`}
+        >
           {data.featureImg ? (
             <div className="post-thumbnail">
               <Link href={`/viewpost?id=${data.id}`}>

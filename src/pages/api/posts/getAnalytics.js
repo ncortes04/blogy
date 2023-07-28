@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { getTemporaryImageUrl } from "../s3Utils";
+import { formatTimestamp } from "../../../common/utils";
 
 const prisma = new PrismaClient();
 
@@ -20,20 +21,32 @@ export default async function handler(req, res) {
         const imageUrls = {};
 
         if (post.featureImg) {
-          const featureImgUrl = await getTemporaryImageUrl(process.env.AWS_BUCKET_NAME, post.featureImg);
+          const featureImgUrl = await getTemporaryImageUrl(
+            process.env.AWS_BUCKET_NAME,
+            post.featureImg
+          );
           imageUrls.featureImg = featureImgUrl;
         }
         if (post.bannerImg) {
-          const bannerImgUrl = await getTemporaryImageUrl(process.env.AWS_BUCKET_NAME, post.bannerImg);
+          const bannerImgUrl = await getTemporaryImageUrl(
+            process.env.AWS_BUCKET_NAME,
+            post.bannerImg
+          );
           imageUrls.bannerImg = bannerImgUrl;
         }
         if (post.iconImg) {
-          const iconImgUrl = await getTemporaryImageUrl(process.env.AWS_BUCKET_NAME, post.iconImg);
+          const iconImgUrl = await getTemporaryImageUrl(
+            process.env.AWS_BUCKET_NAME,
+            post.iconImg
+          );
           imageUrls.iconImg = iconImgUrl;
         }
 
         return { ...post, ...imageUrls };
       })
+    );
+    popularPostsWithImageUrls.map(
+      (post) => (post.created_at = formatTimestamp(post.created_at))
     );
 
     res.status(200).json(popularPostsWithImageUrls);

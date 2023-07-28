@@ -66,7 +66,6 @@ const PostSectionTen = ({ postData }) => {
                   </div>
                 ))}
               </Nav>
-
               <Tab.Content className="grid-tab-content mt--10">
                 <Tab.Pane className="single-post-grid" eventKey={true}>
                   <div className="row mt--40">
@@ -94,9 +93,7 @@ const PostSectionTen = ({ postData }) => {
                               <div className="post-content">
                                 <div className="post-cat">
                                   <div className="post-cat-list">
-                                    <Link
-                                      href={`/category/${data.category}`}
-                                    >
+                                    <Link href={`/category/${data.category}`}>
                                       <a className="hover-flip-item-wrapper">
                                         <span className="hover-flip-item">
                                           <span data-text={data.category}>

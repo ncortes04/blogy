@@ -45,7 +45,7 @@ const Nav = ({ posts }) => {
   return (
     <ul className="mainmenu">
       <li className="menu-item-has-children">
-        <a href="/tech-blog">Home</a>
+        <a href="/">Home</a>
       </li>
 
       <li className="menu-item-has-children megamenu-wrapper">
@@ -128,13 +128,19 @@ const Nav = ({ posts }) => {
         </ul>
       </li>
       <li className="menu-item-has-children">
-        <a href="/post-list">Post List</a>
+        <Link href="/post-list">
+          <a>Post List</a>
+        </Link>
       </li>
       <li className="menu-item-has-children">
-        <a href="/contact">Contact</a>
+        <Link href="/contact">
+          <a>Contact</a>
+        </Link>
       </li>
       <li className="menu-item-has-children">
-        <a href="/about">About</a>
+        <Link href="/about">
+          <a>About</a>
+        </Link>
       </li>
     </ul>
   );

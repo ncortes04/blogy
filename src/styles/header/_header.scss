@@ -129,6 +129,9 @@ Header Styles
         }
 
         .metabar-block {
+            button {
+                background-color: rebeccapurple;
+            }
             li {
                 &.icon {
                     a {
@@ -164,6 +167,7 @@ Search Styles
     &.form-group {
         position: relative;
         margin-bottom: 0;
+        margin-right: 5px;
         text-align: right;
         display: inline-block;
         input {
@@ -204,23 +208,48 @@ button {
     @extend %liststyle;
     display: flex;
     align-items: center;
+    gap: 2px;
+    @media only screen and (min-width: 1600px) and (max-width: 1800px) {
+        gap: 11px;
+    }
+    @media #{$laptop-device} {
+        gap: 5px;
+    }
+    @media #{$md-layout} {
+        gap: 4px;
+    }
+    @media #{$sm-layout} {
+        gap: 10px;
+    }
+    .login {
+        background: var(--color-lightest); 
+        min-width: 80px!important;
+        text-align: center;
+        border-radius: 50px;
+        padding: 6px;
+        color: var(--color-gray);
+        &:hover {
+            background: var(--color-primary);
+            color: #fff !important;
+        }
+    }
+    .sign-out {
+        background: var(--color-lightest); 
+        min-width: 100px!important;
+        text-align: center;
+        white-space: nowrap;
+        border-radius: 50px;
+        padding: 6px;
+        color: var(--color-gray);
+        &:hover {
+            background: var(--color-primary);
+            color: #fff !important;
+        }
+    }
     li {
-        margin-left: 20px;
         display: flex;
         margin-top: 0;
         margin-bottom: 0;
-        @media only screen and (min-width: 1600px) and (max-width: 1800px) {
-            margin-left: 8px;
-        }
-        @media #{$laptop-device} {
-            margin-left: 5px;
-        }
-        @media #{$md-layout} {
-            margin-left: 10px;
-        }
-        @media #{$sm-layout} {
-            margin-left: 10px;
-        }
         &.icon {
             a {
                 background: var(--color-lightest); 
@@ -244,18 +273,7 @@ button {
                 }
             }
         }
-        .login {
-            background: var(--color-lightest); 
-            min-width: 80px!important;
-            text-align: center;
-            border-radius: 50px;
-            padding: 6px;
-            color: var(--color-gray);
-            &:hover {
-                background: var(--color-primary);
-                color: #fff !important;
-            }
-        }
+  
         a {
             span {
                 display: block !important;
@@ -284,6 +302,7 @@ button {
     @media #{$sm-layout} {
         margin-left: 10px;
     }
+
     .hamburger-inner {
         .icon {
             background: var(--color-lightest); 

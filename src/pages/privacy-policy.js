@@ -8,33 +8,15 @@ import authservice from "../common/utils/authservice";
 
 // Use the prisma object to interact with your database
 const PrivacyPolicy = ({ me, users, allPosts }) => {
-  const postData = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/api/me",
-        {},
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${authservice.getToken()}`,
-          },
-        }
-      );
-      await response.json()
-      console.log(response.data);
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
-  
-  
   return (
     <>
-    <HeadTitle pageTitle="Privacy Policy"/>
-    <HeaderOne postData={allPosts} Class="header-light header-sticky header-with-shadow"/>
+      <HeadTitle pageTitle="Privacy Policy" />
+      <HeaderOne
+        postData={allPosts}
+        Class="header-light header-sticky header-with-shadow"
+      />
       <div className="container">
         <div className="row">
-          <button onClick={() => postData()}>Post</button>
           <div className="col-lg-10 offset-lg-1">
             <div className="content">
               <div className="inner">
@@ -78,8 +60,8 @@ const PrivacyPolicy = ({ me, users, allPosts }) => {
                   <p>{privacyData.rightsToPersonalData}</p>
                 </div>
                 <div>
-                  <h3>Hotjar’s privacy policy</h3>
-                  <p>{privacyData.hotjarPrivacyPolicy}</p>
+                  <h3>Nicks privacy policy</h3>
+                  <p>{privacyData.nicksPrivacyPolicy}</p>
                 </div>
                 <div>
                   <h3>Changes to this Privacy Policy</h3>
@@ -98,7 +80,7 @@ export default PrivacyPolicy;
 
 export async function getServerSideProps() {
   try {
-    const response = await fetch('http://localhost:3000/api/users');
+    const response = await fetch("http://localhost:3000/api/users");
     const users = await response.json();
     const allPosts = getAllPosts(["title", "featureImg", "slug", "cate"]);
     return {
@@ -117,4 +99,3 @@ export async function getServerSideProps() {
     };
   }
 }
-

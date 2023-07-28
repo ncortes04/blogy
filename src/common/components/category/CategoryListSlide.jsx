@@ -77,7 +77,7 @@ const slideSettings = {
                   <a>
                     <div className="thumbnail">
                     <Image
-                        src='/images/posts/thumbnail-01.webp'
+                        src={data.cate_img}
                         alt={data.cate}
                         height={180}
                         width={180}

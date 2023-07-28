@@ -119,7 +119,7 @@ const AuthorArchive = ({ userData, allPosts }) => {
               <PostLayoutTwo user={userData} dataPost={userData.post} show="5"/>
             </div>
             <div className="col-lg-4 col-xl-4 mt_md--40 mt_sm--40">
-              {/* <SidebarOne dataPost={allPosts} /> */}
+              <SidebarOne dataPost={allPosts} />
             </div>
           </div>
         </div>

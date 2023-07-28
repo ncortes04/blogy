@@ -30,7 +30,7 @@ const PostSectionNine = ({ postData, bgColor }) => {
                   </Link>
                 </div>
               )}
-              <div className="post-grid-content">
+              <div className="post-grid-content ">
                 <div className="post-content first-img">
                   <div className="post-cat">
                     <div className="post-cat-list">

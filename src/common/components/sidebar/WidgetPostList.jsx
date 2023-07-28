@@ -48,5 +48,3 @@ const WidgetPostList = ({ popularPosts }) => {
 };
 
 export default WidgetPostList;
-
-

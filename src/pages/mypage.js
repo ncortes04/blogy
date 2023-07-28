@@ -3,8 +3,6 @@ import { useRouter } from "next/router";
 import NextNprogress from "nextjs-progressbar";
 import Image from "next/image";
 import Link from "next/link";
-import axios from "axios";
-import { getAllPosts } from "../../lib/api";
 import InstagramOne from "../common/components/instagram/InstagramOne";
 import FooterOne from "../common/elements/footer/FooterOne";
 import HeaderOne from "../common/elements/header/HeaderOne";
@@ -62,7 +60,7 @@ const MyPage = ({ token, allPosts }) => {
             Authorization: `Bearer ${token}`,
           },
         });
-        
+
         const userData = await response.json();
         setMyData(userData.foundUser);
         setDataFields({
@@ -128,7 +126,7 @@ const MyPage = ({ token, allPosts }) => {
 
   const handleSubmit = async (e) => {
     const token = localStorage.getItem("id_token");
-    
+
     try {
       const formData = new FormData();
       formData.append("image", selectedImage);
@@ -186,7 +184,6 @@ const MyPage = ({ token, allPosts }) => {
                       <div className="img-edit">
                         <Link href="#">
                           <a>
-                            
                             {previewImage ? (
                               <Image
                                 src={previewImage}
@@ -407,11 +404,11 @@ const MyPage = ({ token, allPosts }) => {
                 </div>
                 {addPost ? <MarkdownEditor /> : null}
               </div>
-                <PostLayoutTwo
-                  user={{ name: myData.name, id: myData.id }}
-                  dataPost={myData.post}
-                  show="5"
-                />
+              <PostLayoutTwo
+                user={{ name: myData.name, id: myData.id }}
+                dataPost={myData.post}
+                show="5"
+              />
             </div>
             <div className="col-lg-4 col-xl-4 mt_md--40 mt_sm--40">
               <SidebarOne dataPost={allPosts} />
@@ -432,7 +429,8 @@ export async function getServerSideProps(context) {
     let token = "";
 
     // Fetch all posts
-    const allPosts = getAllPosts(["title", "featureImg", "slug", "cate"]);
+    const response = await fetch("http://localhost:3000/api/posts/getAllPosts");
+    const allPosts = await response.json();
 
     return {
       props: {
