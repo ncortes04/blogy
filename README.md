@@ -2,22 +2,56 @@
 
 Blogar is a full-featured, user-friendly platform that allows users to share their stories, ideas, and perspectives. Whether you're a seasoned writer, an industry expert, or someone who enjoys sharing life experiences, Blogar provides a large and engaging community.
 
-The landing page welcomes users with a Mega Menu that allows users to fiulter posts upon hover showing the newest posts that match that category.
+The landing page welcomes users with a Mega Menu that allows users to filter posts upon hover, showing the newest posts that match that category.
 
 Upon finding a blog post of interest, users can delve deeper into the content. By clicking on a blog post, users are directed to a dedicated page showcasing the full text, accompanying images, and the author's profile. An interactive comments section at the end of each blog allows for engaging discussions and feedback.
 
-Users are able to create their own blog posts, complete with a bold header, a large cover image in which that user can upload, and engaging content. The blogging process is streamlined and user-friendly, with a built in post editor and a preview for what the post will look like.
+Users are able to create their own blog posts, complete with a bold header, a large cover image in which that user can upload, and engaging content. The blogging process is streamlined and user-friendly, with a built-in post editor and a preview for what the post will look like.
 
-With Blog Buddy, customizing your personal profile is a breeze. You can easily update your profile picture by navigating to your user profile and selecting the pencil option. From there, users can upload a new profile picture, update their designation, and update their bio
+With Blogar, customizing your personal profile is a breeze. You can easily update your profile picture by navigating to your user profile and selecting the pencil option. From there, users can upload a new profile picture, update their designation, and update their bio.
 
-Experience the power of storytelling and community with Blog Buddy. Explore our wide array of blogs, engage with confidence, and begin your blogging journey with ease.
+Experience the power of storytelling and community with Blogar. Explore our wide array of blogs, engage with confidence, and begin your blogging journey with ease.
+
+# How It Works: Showcasing My Skills
+
+## Server Side Rendering with Next.js
+
+The platform I've developed utilizes Next.js, a powerful framework that enables server-side rendering (SSR). SSR significantly improves the performance and SEO of the website by rendering pages on the server before sending them to the client. This ensures faster loading times and better search engine visibility, enhancing the user experience.
+
+## Seamless Post and Image Uploads to AWS
+
+The platform allows users to create and upload posts effortlessly. When a user submits a post, the system seamlessly uploads the accompanying images to Amazon Web Services (AWS) S3 storage. This ensures efficient storage and quick retrieval of images for display. By utilizing AWS, the platform can handle large amounts of media content without impacting performance.
+
+## Database Image Reference Management
+
+To keep track of uploaded images, the platform maintains a reference in the database. This reference allows the system to link posts to their respective images without storing the actual image files in the database. By doing so, the platform efficiently manages data storage and retrieval, ensuring a well-organized and scalable system.
+
+## Dynamic Image Processing with Sharp
+
+As part of the image optimization strategy, the platform uses the Sharp library to create three different versions of each uploaded image: a banner image, an icon image, and a feature image. These variations are tailored to specific use cases to enhance performance and image quality.
+
+- **Banner Image**: Used for large banners or headers, providing high-quality visuals without stretching or distorting the image.
+- **Icon Image**: Ideal for small icons or thumbnails, ensuring fast loading and crisp visuals.
+- **Feature Image**: Optimized for feature sections or content previews, balancing image quality and load time.
+
+By dynamically generating and serving these image variations, the platform optimizes load times, conserves bandwidth, and delivers a smooth user experience.
+
+## Temporary Image Links for Enhanced Security
+
+To further enhance security and prevent unauthorized access, the platform generates temporary image links when users perform GET requests for specific images. These temporary links are valid for only a few hours, ensuring that image access is limited to authenticated users during the required timeframe.
+
+## Profile Image Upload to AWS S3
+
+Similar to post images, users can also upload profile images to AWS S3. This functionality provides a seamless and secure method for users to personalize their profiles. Like post images, profile images are optimized and efficiently managed to ensure optimal performance and user experience.
+
+The platform's implementation of Next.js for SSR, seamless AWS integration for post and profile image uploads, efficient image processing with Sharp, and enhanced security measures demonstrates my skills in creating a robust and high-performance web application. With a focus on user experience and scalability, the platform provides a smooth and enjoyable environment for users to share their stories and engage with content.
 
 ## Technologies Used
 
-- **Front-end**: HTML, CSS, JavaScript, Next.js
+- **Front-end**: HTML, SCSS, JavaScript, Next.js
 - **Back-end**: Node.js, Express.js, Prisma, MySQL
 - **Authentication**: bcrypt, JWT (JSON Web Tokens)
-- **Other Tools**: Git, GitHub, Postman
+- **Other Tools**: Git, GitHub, Postman. AWS S3
 
 ## Installation
 
@@ -29,80 +63,126 @@ To run the project locally, follow these steps:
 4. Start the development server.
 5. Access the website through your preferred browser.
 
-## Pages
+# Pages
 
-### Landing Page
+## Landing Page
 
 ![Landing Page](readme-images/landing.png)
 _Figure 1: Landing Page_
 
-The user is greeted with a functional search bar and a brief introduction of what this site stands for.
+The landing page greets users with a conversion-optimized design. It showcases trending topics that direct users to a search-by-category page. The displayed posts are the most recently uploaded blogs.
 
-![Landing Page](readme-images/search-suggestions.png)
-_Figure 2: Search Suggestions_
+## Dark Landing Page
 
-### Main Page
+![Dark Landing Page](readme-images/dark-landing.png)
+_Figure 2: Dark Landing Page_
 
-![Recent-Popular Page](readme-images/recent-popular.png)
-_Figure 2: Recent-Popular Page_
+The landing page with a dark theme applied, providing an alternative visual experience for users.
 
-Users can scroll down and find a section for popular cars and recent cars. The popular cars are calculated by the server, while the recent cars are temporarily stored in local storage.
+## Mega Menu
 
-### Footer
+![Trending Topics](readme-images/mega-menu.png)
+_Figure 3: Mega Menu_
 
-![Footer](readme-images/footer.png)
-_Figure 3: Footer-Contact Page_
+Users can hover over the mega menu, which shows a quick filter by category. Upon hovering on a category, it shows 4 posts that a user can select.
 
-All pages end with a footer section containing a few links.
+## Trending Topics
 
-### Login
+![Trending Topics](readme-images/trending-topics.png)
+_Figure 4: Trending Topics_
 
-![Login](readme-images/login.png)
-_Figure 4: Login Page_
+Users can scroll down and find a section for a search by category.
 
-Users can log in or sign up securely.
+## Filter by Category
 
-## Filter - View All
+![Filter Category](readme-images/filter-category.png)
+_Figure 5: Filter by Category_
 
-![View All Page](readme-images/filter-viewAll.png)
-_Figure 5: View All/Filter_
+Upon pressing on a topic or the red category label, a user is redirected to the category page. This page shows the most recent posts within that given category.
 
-When users are directed to the view all page, they have the option to functionally filter cars. If there is no filter, they can simply view all the cars.
+## All Posts
 
-## Single View
+![Filter Category](readme-images/post-list.png)
+_Figure 6: All Posts_
 
-![Single View Page](readme-images/single-view.png)
-_Figure 6: Single View_
+A user can select the post list from the nav bar and view all posts.
 
-Users can click on a car and be directed to a single view of that car, where they can get more information. They can check availability and interact with a functional calendar. The car's reviews can be viewed below its description. The number of reviews is counted, and the average rating is calculated and displayed in the form of stars.
+## Top Stories
 
-## Calendar
+![Top Stories](readme-images/top-stories.png)
+_Figure 7: Top Stories_
 
-![Calendar View](readme-images/calendar.png)
-_Figure 7: Calendar View_
+This section highlights the top stories or most popular posts on the platform.
 
-Users can select a range of available dates. Dates that have already been booked are disabled and displayed in grey, indicating their unavailability. Users can select dates and confirm their selection to proceed to the checkout pages.
+## Top Stories 2
+
+![Top Stories 2](readme-images/top-stories2.png)
+_Figure 8: Top Stories 2_
+
+Another section highlighting top stories or most popular posts, providing users with varied content options.
 
 ## Reviews
 
-![Review Section](readme-images/reviews.png)
-_Figure 8: Review Section_
+![Reviews](readme-images/reviews.png)
+_Figure 9: Reviews_
 
-Users can view reviews made by other users, delete reviews, or add new reviews. The total number of reviews is indicated at the top. Users can rate the car from 1 to 5 stars, add a title, and provide a description.
+Users can view and interact with posts based on their reviews. This feature currently does not have functionality. I plan on updating this feature in the near future.
 
-## Checkout
+## My Profile
 
-![Checkout Page](readme-images/checkout.png)
-_Figure 9: Checkout Page_
+![My Profile](readme-images/my-profile.png)
+_Figure 10: My Profile_
 
-When users have found their desired vehicle and selected their dates, they can proceed to the checkout process. Although there is no current payment processing, a purchase ticket is generated, and the booking is confirmed. The confirmation updates the statistics and the number of days the car is booked.
+Users can view and manage their personal profiles, including profile information and posts they have created.
 
-## Admin Panel
+## Edit Profile
 
-![Admin Page](readme-images/admin-panel.png)
-_Figure 10: Admin Panel_
+![Edit Profile](readme-images/edit-profile.png)
+_Figure 11: Edit Profile_
 
-If a user is an admin, they get access to exclusive analytics including the top 5 rentals, recent transactions, and adding a car. These features are functional and calculate the top 5 based on how frequently they are purchased, as per the purchase tickets.
+Users can access and modify their profile settings and information on this page. Users can edit name, designation, bio, social, and upload a profile picture.
+
+## Create Post
+
+![Create Post](readme-images/create-post.png)
+_Figure 12: Create Post_
+
+Users can access a custom post editor in which they can upload an image for their cover and edit the body of their post. As the user types, they can view a live preview of what their post will look like.
+
+## Login
+
+![Login](readme-images/login.png)
+_Figure 13: Login Page_
+
+Users can securely log in or sign up to access their accounts.
+
+## Single Post Page
+
+![Single Landing Page](readme-images/single-landing.png)
+_Figure 14: Single Post Page_
+
+Users are directed to this page when they click on a blog item. This page displays the featured image along with the title.
+
+## Single Post Body
+
+![Single Post Body](readme-images/single-post-body.png)
+_Figure 15: Single Post Body_
+
+This page displays the complete body of a single post, providing users with the full content and details of the post. This body is created using a markdown file converter, which enhances user experience and cyber security to prevent cross-site scripting.
+
+## Post Comments
+
+![Single Comment](readme-images/single-comment.png)
+_Figure 16: Post Comments_
+
+A user can choose to view comments and add a comment of their own.
+
+## View Others
+
+![View Others](readme-images/view-others.png)
+_Figure 17: View Others_
+
+This page allows users to view the profiles and posts of other users on the platform.
 
 ## License
 
@@ -110,11 +190,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Credits
 
-- Express: The server framework used for handling HTTP requests and API endpoints. Express
-- React Router: The library used for client-side routing and navigation. React Router
+- Prisma: The server ORM used for handling HTTP requests and API endpoints.
 - jsonwebtoken: The library used for generating and verifying JSON Web Tokens (JWT) for user authentication.
-- React Chart.js: The library used for creating interactive and responsive charts in React applications.
-- react-date-range: The library used for displaying and selecting date ranges in React applications. react-date-range
-- MySQL: The relational database management system used for storing and retrieving data. MySQL
-- Redux: The library used for managing state in React applications. Redux
-- react-redux: The official Redux bindings for React, used for integrating Redux with React components.
+- MySQL: The relational database management system used for storing and retrieving data.
