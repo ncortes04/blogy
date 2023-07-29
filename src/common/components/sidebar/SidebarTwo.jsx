@@ -6,12 +6,12 @@ import WidgetSearch from "./WidgetSearch";
 import WidgetSocialShare from "./WidgetSocialShare";
 import WidgetTags from "./WidgetTags";
 
-const SidebarTwo = ({ dataPost, tagData }) => {
+const SidebarTwo = ({ popular, dataPost, tagData }) => {
   return (
     <div className="sidebar-inner">
       <WidgetCategory catData={dataPost} />
       <WidgetSearch />
-      <WidgetPostList postData={dataPost} />
+      <WidgetPostList popularPosts={popular} />
       <WidgetNewsletter />
       <WidgetSocialShare />
       <WidgetInstagramPost />

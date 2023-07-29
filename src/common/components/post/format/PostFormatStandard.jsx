@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import PostMetaOne from './element/PostMetaOne';
-import PostAuthor from './element/PostAuthor';
-import SidebarTwo from '../../sidebar/SidebarTwo';
-import PostMetaTwo from './element/PostMetaTwo';
-import PostComment from './element/PostComment';
-import PostTagShare from './element/PostTagShare';
-import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
-import CommentForm from './element/CommentForm';
+import { useState } from "react";
+import PostMetaOne from "./element/PostMetaOne";
+import PostAuthor from "./element/PostAuthor";
+import SidebarTwo from "../../sidebar/SidebarTwo";
+import PostMetaTwo from "./element/PostMetaTwo";
+import PostComment from "./element/PostComment";
+import PostTagShare from "./element/PostTagShare";
+import { ReactMarkdown } from "react-markdown/lib/react-markdown";
+import CommentForm from "./element/CommentForm";
 
-const PostFormatStandard = ({ postData, allData }) => {
+const PostFormatStandard = ({ popular, postData, allData }) => {
   const [showCommentForm, setShowCommentForm] = useState(false);
 
   const toggleCommentForm = () => {
@@ -17,33 +17,37 @@ const PostFormatStandard = ({ postData, allData }) => {
 
   const socialLinks = [
     {
-      icon: 'fab fa-facebook-f',
-      url: postData.user.facebook || 'https://facebook.com/',
+      icon: "fab fa-facebook-f",
+      url: postData.user.facebook || "https://facebook.com/",
     },
     {
-      icon: 'fab fa-twitter',
-      url: postData.user.twitter || 'https://twitter.com',
+      icon: "fab fa-twitter",
+      url: postData.user.twitter || "https://twitter.com",
     },
     {
-      icon: 'fab fa-instagram',
-      url: postData.user.instagram || 'https://instagram.com',
+      icon: "fab fa-instagram",
+      url: postData.user.instagram || "https://instagram.com",
     },
     {
-      icon: 'fab fa-linkedin',
-      url: postData.user.instagram || 'https://linkedin.com',
+      icon: "fab fa-linkedin",
+      url: postData.user.instagram || "https://linkedin.com",
     },
   ];
 
   return (
     <>
-      {postData.bannerImg ? <PostMetaOne socialLinks={socialLinks} metaData={postData} /> : ''}
+      {postData.bannerImg ? (
+        <PostMetaOne socialLinks={socialLinks} metaData={postData} />
+      ) : (
+        ""
+      )}
 
       <div className="post-single-wrapper axil-section-gap bg-color-white">
         <div className="container">
           <div className="row">
             <div className="col-lg-8">
               {postData.bannerImg ? (
-                ''
+                ""
               ) : (
                 <PostMetaTwo metaData={postData} socialLinks={socialLinks} />
               )}
@@ -60,7 +64,7 @@ const PostFormatStandard = ({ postData, allData }) => {
                   <div className="title">
                     <h4 className="mb--0">
                       {postData.comment.length === 0
-                        ? 'No comments'
+                        ? "No comments"
                         : `${postData.comment.length} Comments`}
                     </h4>
                   </div>
@@ -79,7 +83,13 @@ const PostFormatStandard = ({ postData, allData }) => {
                 <PostComment comments={postData.comment} />
               </div>
             </div>
-            <div className="col-lg-4"><SidebarTwo dataPost={allData} tagData={postData}/></div>
+            <div className="col-lg-4">
+              <SidebarTwo
+                popular={popular}
+                dataPost={allData}
+                tagData={postData}
+              />
+            </div>
           </div>
         </div>
       </div>
