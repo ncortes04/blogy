@@ -1,4 +1,4 @@
-# Rental Car
+# Blogy
 
 Blogar is a full-featured, user-friendly platform that allows users to share their stories, ideas, and perspectives. Whether you're a seasoned writer, an industry expert, or someone who enjoys sharing life experiences, Blogar provides a large and engaging community.
 
