@@ -1,6 +1,6 @@
 # Blogy
 
-Blogar is a full-featured, user-friendly platform that allows users to share their stories, ideas, and perspectives. Whether you're a seasoned writer, an industry expert, or someone who enjoys sharing life experiences, Blogar provides a large and engaging community.
+Blogy is a full-featured, user-friendly platform that allows users to share their stories, ideas, and perspectives. Whether you're a seasoned writer, an industry expert, or someone who enjoys sharing life experiences, Blogy provides a large and engaging community.
 
 The landing page welcomes users with a Mega Menu that allows users to filter posts upon hover, showing the newest posts that match that category.
 
@@ -8,9 +8,9 @@ Upon finding a blog post of interest, users can delve deeper into the content. B
 
 Users are able to create their own blog posts, complete with a bold header, a large cover image in which that user can upload, and engaging content. The blogging process is streamlined and user-friendly, with a built-in post editor and a preview for what the post will look like.
 
-With Blogar, customizing your personal profile is a breeze. You can easily update your profile picture by navigating to your user profile and selecting the pencil option. From there, users can upload a new profile picture, update their designation, and update their bio.
+With Blogy, customizing your personal profile is a breeze. You can easily update your profile picture by navigating to your user profile and selecting the pencil option. From there, users can upload a new profile picture, update their designation, and update their bio.
 
-Experience the power of storytelling and community with Blogar. Explore our wide array of blogs, engage with confidence, and begin your blogging journey with ease.
+Experience the power of storytelling and community with Blogy. Explore our wide array of blogs, engage with confidence, and begin your blogging journey with ease.
 
 # How It Works: Showcasing My Skills
 
