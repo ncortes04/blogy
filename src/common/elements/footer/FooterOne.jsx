@@ -1,9 +1,9 @@
-import Image from 'next/image';
+import Image from "next/image";
 import Link from "next/link";
 
 const FooterOne = () => {
   if (typeof window !== "undefined") {
-    var colorMode = window.localStorage.getItem('color-mode');
+    var colorMode = window.localStorage.getItem("color-mode");
   }
 
   return (
@@ -218,16 +218,20 @@ const FooterOne = () => {
           <div className="row">
             <div className="col-lg-4 col-md-4">
               <div className="logo">
-              <Link href="/">
-                <a>
-                  <Image
-                    className="dark-logo"
-                    src={colorMode === "Dark" ? "/images/logo/logo-white2.webp" : "/images/logo/logo-black.webp"}
-                    alt="Logo Images"
-                    height={37}
-                    width={141}
-                  />
-                </a>
+                <Link href="/">
+                  <a>
+                    <Image
+                      className="dark-logo"
+                      src={
+                        colorMode === "Dark"
+                          ? "/images/logo/logo-white2.webp"
+                          : "/images/logo/logo-black.webp"
+                      }
+                      alt="Logo Images"
+                      height={37}
+                      width={141}
+                    />
+                  </a>
                 </Link>
               </div>
             </div>
@@ -237,7 +241,11 @@ const FooterOne = () => {
                 <h5 className="follow-title mb--0 mr--20">Follow Us</h5>
                 <ul className="social-icon color-tertiary md-size justify-content-start">
                   <li>
-                    <a href="https://www.facebook.com/" rel="noopener" target="_blank">
+                    <a
+                      href="https://www.facebook.com/"
+                      rel="noopener"
+                      target="_blank"
+                    >
                       <i className="fab fa-facebook-f" />
                     </a>
                   </li>
@@ -313,7 +321,7 @@ const FooterOne = () => {
                     <Link href="#">
                       <a className="hover-flip-item-wrapper">
                         <span className="hover-flip-item">
-                          <span data-text="Blogar Store">Blogar Store</span>
+                          <span data-text="Blogy Store">Blogy Store</span>
                         </span>
                       </a>
                     </Link>

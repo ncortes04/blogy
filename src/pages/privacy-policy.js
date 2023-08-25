@@ -28,8 +28,8 @@ const PrivacyPolicy = ({ me, users, allPosts }) => {
                   <p>{privacyData.gdprCompliance}</p>
                 </div>
                 <div>
-                  <h3>About Blogar</h3>
-                  <p>{privacyData.aboutBlogar}</p>
+                  <h3>About Blogy</h3>
+                  <p>{privacyData.aboutBlogyr}</p>
                 </div>
                 <div>
                   <h3>When we collect personal data about you</h3>

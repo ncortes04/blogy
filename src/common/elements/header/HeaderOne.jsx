@@ -66,7 +66,7 @@ const HeaderOne = ({ pClass, darkLogo, lightLogo, postData }) => {
                           : darkLogo || "/images/logo/logo-black.webp") ||
                         "/images/logo/logo-black.webp"
                       }
-                      alt="Blogar logo"
+                      alt="Blogy logo"
                     />
                   </a>
                 </Link>

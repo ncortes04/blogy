@@ -8,7 +8,7 @@ const WidgetPostList = ({ popularPosts }) => {
 
   return (
     <div className="axil-single-widget widget widget_postlist mb--30">
-      <h5 className="widget-title">Popular on Blogar</h5>
+      <h5 className="widget-title">Popular on blogy</h5>
       <div className="post-medium-block">
         {popularPosts.map((data) => (
           <div className="content-block post-medium mb--20" key={data.id}>
